@@ -1,8 +1,8 @@
-current_level = 0
+current_level: int = 0
 
-game_running = True
+game_running: bool = True
 
-elapsed_frames = 0
+elapsed_frames: int = 0
 
-all_objects = []
-all_overlays = []
+all_objects:  list[object] = []
+all_overlays: list[object] = []

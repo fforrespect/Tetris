@@ -1,13 +1,15 @@
-# Environment & Physics #
-SCREEN_SIZE = (1400, 800)
+# Environment #
+SCREEN_SIZE: tuple[int, int] = (1024, 896)
 
-FPS = 60
+PLAYBOX_NW: tuple[int, int] = (382, 158)
+PLAYBOX_SIZE: tuple[int, int] = (320, 640)
+MINO_SIZE: int = 32
+GRID_SIZE: tuple[int, int] = (10, 20)
+
+# Physics #
+FPS: int = 60
 
 # Files #
-_RESOURCES_FP = "../Resources/"
-_LEVELS_FP = f"{_RESOURCES_FP}Levels/"
+_RESOURCES_FP: str = "../Resources/"
 
-ACTIVE_LEVELS_FP = f"{_LEVELS_FP}Active/"
-STORED_LEVELS_FP = f"{_LEVELS_FP}Store/"
-
-IMAGES_FP = f"{_RESOURCES_FP}Images/"
+IMAGES_FP: str = f"{_RESOURCES_FP}Images/"

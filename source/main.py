@@ -1,13 +1,21 @@
 import sys
 import pygame
 
-from Setup import Constants, GlobalVars
+from Display import Window
 from Event import GameOver
+from Game import Board
+from Process import Overlays
+from Setup import Constants, GlobalVars
 
 # Set up pygame
 pygame.init()
-screen = pygame.display.set_mode(Constants.SCREEN_SIZE)
-clock = pygame.time.Clock()
+screen: pygame.Surface = pygame.display.set_mode(Constants.SCREEN_SIZE)
+clock: pygame.time.Clock = pygame.time.Clock()
+
+# Set up game
+Overlays.initialise()
+board = Board.Board()
+
 
 while GlobalVars.game_running:
     clock.tick(Constants.FPS)
@@ -19,7 +27,11 @@ while GlobalVars.game_running:
     if GameOver.quit_pressed(pygame.event.get()):
         break
 
-    keys = pygame.key.get_pressed()
+    # keys = pygame.key.get_pressed()
+
+    # Finally, draw everything to the screen
+    Window.display(screen)
+
 
 pygame.quit()
 sys.exit()
