@@ -1,11 +1,12 @@
 import pygame
 
+from Game import Level
 from Process import Shapes
 from Setup import Constants, GlobalVars, Colours
 
 
 def generate():
-    shape: int = -1  # will do the random generation later
+    shape: int = 4  # will do the random generation later
 
     GlobalVars.active_tetromino = Tetromino(shape)
 
@@ -54,7 +55,8 @@ class Tetromino:
                     rect = (nw_px, self.px_size)
                     pygame.draw.rect(screen, self.colour, rect)
 
-    def move(self, l_or_r: int, down: int = 1, rotate: int = 0):
+    def move(self, l_or_r: int, down: int = 0):  # , rotate: int = 0):
+        down: int = 1 if (GlobalVars.elapsed_frames % round(Constants.FPS / Level.speed()) == 0) else down
 
         self.nw_pos[0] += l_or_r
         self.nw_pos[1] += down
