@@ -46,13 +46,13 @@ class Tetromino:
 
         GlobalVars.all_objects.append(self)
 
-    def draw(self, screen) -> None:
+    def draw(self, screen: pygame.Surface) -> None:
         for position in self.get_all_pos():
             nw_px: list[int] = [Constants.PLAYBOX_NW[i] + (position[i]*Constants.MINO_SIZE) for i in range(2)]
             rect = (nw_px, self.px_size)
             pygame.draw.rect(screen, self.colour, rect)
 
-    def move(self, keys) -> None:
+    def move(self, keys: tuple[bool]) -> None:
         time_to_move: bool = GlobalVars.elapsed_frames % Constants.MOVE_BUFFER == 0
         l_or_r: int = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT] if time_to_move else 0
 

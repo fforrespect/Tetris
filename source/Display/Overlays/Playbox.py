@@ -11,5 +11,5 @@ class Playbox:
 
         GlobalVars.all_overlays.append(self)
 
-    def draw(self, screen: pygame.Surface):
+    def draw(self, screen: pygame.Surface) -> None:
         pygame.draw.rect(screen, self.colour, self.rect, not self.is_filled)

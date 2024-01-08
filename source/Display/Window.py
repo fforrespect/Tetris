@@ -3,7 +3,7 @@ import pygame
 from Setup import GlobalVars, Colours
 
 
-def display(screen: pygame.Surface):
+def display(screen: pygame.Surface) -> None:
     # Background
     screen.fill(Colours.BLACK)
 

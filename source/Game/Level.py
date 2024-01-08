@@ -3,7 +3,7 @@ import math
 from Setup import GlobalVars
 
 
-def speed():
+def speed() -> int:
     # match (level := GlobalVars.current_level):
     #     case _ if 0 <= level < 10:
     #         return 1

@@ -31,7 +31,7 @@ while GlobalVars.game_running:
     if GlobalVars.elapsed_frames == 100:
         Tetromino.generate()
 
-    keys = pygame.key.get_pressed()
+    keys: tuple[bool] = pygame.key.get_pressed()
 
     if GlobalVars.active_tetromino is not None:
         GlobalVars.active_tetromino.move(keys)
