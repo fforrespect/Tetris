@@ -7,15 +7,15 @@ from Process import Shapes
 from Setup import Constants, GlobalVars, Colours
 
 
-def generate():
+def generate_new() -> None:
     rand = random.Random()
     shape: int = rand.randint(0, 6)
 
     GlobalVars.active_tetromino = Tetromino(shape)
 
 
-def make_hashable(list_: list) -> tuple:
-    return tuple(map(tuple, list_))
+def make_set(list_: list) -> set[tuple[tuple]]:
+    return set(tuple(map(tuple, list_)))
 
 
 class Tetromino:
@@ -68,12 +68,22 @@ class Tetromino:
                 (keys[pygame.K_DOWN] and time_to_move)) \
             else 0
 
-        # rotate: int = 0
+        new_rotation: int = (self.rotation + (keys[pygame.K_UP] - keys[pygame.K_c])) % 4
+        rotated_matrix: list[list[bool]] = Shapes.matrices[ self.shape][new_rotation]
 
-        l_or_r, down = self.__adjust_vel_for_collision(l_or_r, down)
+        l_or_r, down, allow_rotation = self.__adjust_vel_for_collision(
+            l_or_r,
+            down,
+            rotated_matrix
+        )
+
+        allow_rotation = allow_rotation and time_to_move
 
         self.nw_pos[0] += l_or_r
         self.nw_pos[1] += down
+        self.matrix = rotated_matrix if allow_rotation else self.matrix
+
+        self.rotation = new_rotation if allow_rotation else self.rotation
 
     def __get_all_pos(self) -> list[list[int]]:
         # Iterate over each row and col in self.matrix_size,
@@ -85,24 +95,26 @@ class Tetromino:
                 for col in range(self.matrix_size)
                 if self.matrix[row][col] == 1]
 
-    def __adjust_vel_for_collision(self, l_or_r: int, down: int) -> tuple[int, int]:
+    def __adjust_vel_for_collision(self, l_or_r: int, down: int, rotated_matrix: list[list[bool]]) \
+            -> tuple[int, int, bool]:
         # Only runs every Constants.FPS/Level.speed() frames (60 by default)
-        all_pos = self.__get_all_pos()
+        all_pos: list[list[int]] = self.__get_all_pos()
+        set_of_filled_board_pos: set = make_set(GlobalVars.game_board.get_filled_pos())
 
         # Falls on something
-        if set(make_hashable([[x, y + down] for x, y in all_pos])).intersection(
-           set(make_hashable(GlobalVars.game_board.get_filled_pos()))) != set() or \
+        if make_set([[x, y + down] for x, y in all_pos]).intersection(set_of_filled_board_pos) != set() or \
                 any(y[1] + down >= Constants.GRID_SIZE[1] for y in all_pos):
             down = 0
             self.__stick_to_board()
 
         # Hits something while moving l or r
-        if set(make_hashable([[x + l_or_r, y] for x, y in all_pos])).intersection(
-           set(make_hashable(GlobalVars.game_board.get_filled_pos()))) != set() or \
+        if make_set([[x + l_or_r, y] for x, y in all_pos]).intersection(set_of_filled_board_pos) != set() or \
                 any(not (0 <= x[0] + l_or_r < Constants.GRID_SIZE[0]) for x in all_pos):
             l_or_r = 0
 
-        return l_or_r, down
+        allow_rotation: bool = not make_set(rotated_matrix).intersection(set_of_filled_board_pos) != set()
+
+        return l_or_r, down, allow_rotation
 
     def __stick_to_board(self):
         for block in self.__get_all_pos():
@@ -114,4 +126,4 @@ class Tetromino:
 
         LineCleared.process()
 
-        generate()
+        generate_new()

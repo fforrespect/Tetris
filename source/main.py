@@ -29,7 +29,7 @@ while GlobalVars.game_running:
     # End processing
 
     if GlobalVars.elapsed_frames == 100:
-        Tetromino.generate()
+        Tetromino.generate_new()
 
     keys: tuple[bool] = pygame.key.get_pressed()
 
