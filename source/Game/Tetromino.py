@@ -18,6 +18,13 @@ def make_set(list_: list) -> set[tuple[tuple]]:
     return set(tuple(map(tuple, list_)))
 
 
+def is_valid_position(pos: list[int], set_of_filled_board_pos: set) -> bool:
+    x, y = pos
+    return ((0 <= x < Constants.GRID_SIZE[0]) and
+            (0 <= y < Constants.GRID_SIZE[1]) and
+            ((x, y) not in set_of_filled_board_pos))
+
+
 class Tetromino:
     def __init__(self, shape: int, rotation: int = 0):
         """
@@ -85,38 +92,41 @@ class Tetromino:
 
         self.rotation = new_rotation if allow_rotation else self.rotation
 
-    def __get_all_pos(self) -> list[list[int]]:
+    def __get_all_pos(self, matrix: list[list[int]] | None = None) -> list[list[int]]:
+        matrix = self.matrix if matrix is None else matrix
         # Iterate over each row and col in self.matrix_size,
         # Check if self.matrix[row][col] is equal to 1,
         # If so, append the adjusted position [self.nw_pos[0] + col, self.nw_pos[1] + row] to the list,
         # Finally, the resulting list of positions is returned
         return [[self.nw_pos[0] + col, self.nw_pos[1] + row]
-                for row in range(self.matrix_size)
-                for col in range(self.matrix_size)
-                if self.matrix[row][col] == 1]
+                for row in range(len(matrix))
+                for col in range(len(matrix[0]))
+                if matrix[row][col]]
 
     def __adjust_vel_for_collision(self, l_or_r: int, down: int, rotated_matrix: list[list[bool]]) \
             -> tuple[int, int, bool]:
-        # Only runs every Constants.FPS/Level.speed() frames (60 by default)
-        all_pos: list[list[int]] = self.__get_all_pos()
+        current_pos: list[list[int]] = self.__get_all_pos()
         set_of_filled_board_pos: set = make_set(GlobalVars.game_board.get_filled_pos())
 
         # Falls on something
-        if make_set([[x, y + down] for x, y in all_pos]).intersection(set_of_filled_board_pos) != set() or \
-                any(y[1] + down >= Constants.GRID_SIZE[1] for y in all_pos):
+        if any(not is_valid_position([x, y + down], set_of_filled_board_pos)
+               for x, y in current_pos):
             down = 0
             self.__stick_to_board()
 
         # Hits something while moving l or r
-        if make_set([[x + l_or_r, y] for x, y in all_pos]).intersection(set_of_filled_board_pos) != set() or \
-                any(not (0 <= x[0] + l_or_r < Constants.GRID_SIZE[0]) for x in all_pos):
+        if any(not is_valid_position([x + l_or_r, y], set_of_filled_board_pos)
+               for x, y in current_pos):
             l_or_r = 0
 
-        allow_rotation: bool = not make_set(rotated_matrix).intersection(set_of_filled_board_pos) != set()
+        # Check rotation
+        rotated_pos = self.__get_all_pos(rotated_matrix)
+        allow_rotation = all(is_valid_position(pos, set_of_filled_board_pos)
+                             for pos in rotated_pos)
 
         return l_or_r, down, allow_rotation
 
-    def __stick_to_board(self):
+    def __stick_to_board(self) -> None:
         for block in self.__get_all_pos():
             GlobalVars.game_board.grid[block[1]][block[0]] = str(self.shape)
 
