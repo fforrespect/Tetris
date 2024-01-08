@@ -10,6 +10,9 @@ GRID_SIZE: tuple[int, int] = (10, 20)
 FPS: int = 60
 MOVE_BUFFER: int = 10
 
+# Grid #
+EMPTY_GRID_LINE = [" " for _ in range(GRID_SIZE[0])]
+
 # Files #
 _RESOURCES_FP: str = "../Resources/"
 

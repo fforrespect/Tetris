@@ -1,6 +1,7 @@
 import pygame
 import random
 
+from Event import LineCleared
 from Game import Level
 from Process import Shapes
 from Setup import Constants, GlobalVars, Colours
@@ -110,5 +111,7 @@ class Tetromino:
         GlobalVars.all_objects.remove(GlobalVars.active_tetromino)
         GlobalVars.active_tetromino = None
         del self
+
+        LineCleared.process()
 
         generate()
