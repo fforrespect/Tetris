@@ -75,12 +75,14 @@ class Tetromino:
         self.nw_pos[1] += down
 
     def __get_all_pos(self) -> list[list[int]]:
-        all_pos: list[list[int]] = []
-        for row in range(self.matrix_size):
-            for col in range(self.matrix_size):
-                if self.matrix[row][col] == 1:
-                    all_pos.append([(self.nw_pos[0] + col), (self.nw_pos[1] + row)])
-        return all_pos
+        # Iterate over each row and col in self.matrix_size,
+        # Check if self.matrix[row][col] is equal to 1,
+        # If so, append the adjusted position [self.nw_pos[0] + col, self.nw_pos[1] + row] to the list,
+        # Finally, the resulting list of positions is returned
+        return [[self.nw_pos[0] + col, self.nw_pos[1] + row]
+                for row in range(self.matrix_size)
+                for col in range(self.matrix_size)
+                if self.matrix[row][col] == 1]
 
     def __adjust_vel_for_collision(self, l_or_r: int, down: int) -> tuple[int, int]:
         # Only runs every Constants.FPS/Level.speed() frames (60 by default)
