@@ -18,4 +18,10 @@ class Board:
                     rect = (nw_px, self.px_size)
                     pygame.draw.rect(screen, Colours.BLUE, rect)
 
-
+    def get_filled_pos(self) -> list[list[int]]:
+        filled_pos: list[list[int]] = []
+        for row in range(len(self.grid)):
+            for col in range(len(self.grid[row])):
+                if self.grid[row][col] != " ":
+                    filled_pos.append([col, row])
+        return filled_pos

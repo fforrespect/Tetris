@@ -13,6 +13,10 @@ def generate():
     GlobalVars.active_tetromino = Tetromino(shape)
 
 
+def make_hashable(list_: list) -> tuple:
+    return tuple(map(tuple, list_))
+
+
 class Tetromino:
     def __init__(self, shape: int, rotation: int = 0):
         """
@@ -80,19 +84,27 @@ class Tetromino:
 
     def __adjust_vel_for_collision(self, l_or_r: int, down: int) -> tuple[int, int]:
         # Only runs every Constants.FPS/Level.speed() frames (60 by default)
+        all_pos = self.__get_all_pos()
+
         l_or_r: int = l_or_r
         down: int = down
 
         # Hit left or right wall
-        for x_pos in map(lambda x: x[0] + l_or_r, self.__get_all_pos()):
+        for x_pos in map(lambda x: x[0] + l_or_r, all_pos):
             if not (0 <= x_pos < Constants.GRID_SIZE[0]):
                 l_or_r = 0
 
         # Hit floor
-        for y_pos in map(lambda x: x[1] + down, self.__get_all_pos()):
+        for y_pos in map(lambda x: x[1] + down, all_pos):
             if y_pos >= Constants.GRID_SIZE[1]:
                 down = 0
                 self.__stick_to_board()
+
+        # Falls on block
+        if set(make_hashable([[x, y + down] for x, y in all_pos])).intersection(
+           set(make_hashable(GlobalVars.game_board.get_filled_pos()))) != set():
+            down = 0
+            self.__stick_to_board()
 
         return l_or_r, down
 
