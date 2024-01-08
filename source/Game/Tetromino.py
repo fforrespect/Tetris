@@ -32,7 +32,7 @@ class Tetromino:
         self.shape: int = shape
         self.rotation: int = rotation
 
-        self.px_size = (Constants.MINO_SIZE, Constants.MINO_SIZE)
+        self.px_size: list[int] = [Constants.MINO_SIZE for _ in range(2)]
         self.matrix: list[list[bool]] = Shapes.matrices[shape][rotation]
         self.matrix_size: int = len(self.matrix)
         self.colour: tuple[int, int, int] = Colours.GREEN  # To be deleted later
@@ -46,16 +46,13 @@ class Tetromino:
 
         GlobalVars.all_objects.append(self)
 
-    def draw(self, screen):
-        for row in range(self.matrix_size):
-            for col in range(self.matrix_size):
-                if self.matrix[row][col] == 1:
-                    nw_px: tuple[int, int] = (Constants.PLAYBOX_NW[0] + ((self.nw_pos[0] + col)*Constants.MINO_SIZE),
-                                              Constants.PLAYBOX_NW[1] + ((self.nw_pos[1] + row)*Constants.MINO_SIZE))
-                    rect = (nw_px, self.px_size)
-                    pygame.draw.rect(screen, self.colour, rect)
+    def draw(self, screen) -> None:
+        for position in self.get_all_pos():
+            nw_px: list[int] = [Constants.PLAYBOX_NW[i] + (position[i]*Constants.MINO_SIZE) for i in range(2)]
+            rect = (nw_px, self.px_size)
+            pygame.draw.rect(screen, self.colour, rect)
 
-    def move(self, keys):
+    def move(self, keys) -> None:
         time_to_move: bool = GlobalVars.elapsed_frames % Constants.MOVE_BUFFER == 0
         l_or_r: int = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT] if time_to_move else 0
 
@@ -66,5 +63,15 @@ class Tetromino:
 
         # rotate: int = 0
 
+        l_or_r, down = GlobalVars.game_board.adjust_velocities_for_collisions(l_or_r, down)
+
         self.nw_pos[0] += l_or_r
         self.nw_pos[1] += down
+
+    def get_all_pos(self) -> list[list[int]]:
+        all_pos: list[list[int]] = []
+        for row in range(self.matrix_size):
+            for col in range(self.matrix_size):
+                if self.matrix[row][col] == 1:
+                    all_pos.append([(self.nw_pos[0] + col), (self.nw_pos[1] + row)])
+        return all_pos

@@ -14,7 +14,7 @@ clock: pygame.time.Clock = pygame.time.Clock()
 
 # Set up game
 Overlays.initialise()
-board = Board.Board()
+GlobalVars.game_board = Board.Board()
 
 
 while GlobalVars.game_running:
