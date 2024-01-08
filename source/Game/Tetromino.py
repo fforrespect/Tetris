@@ -47,7 +47,7 @@ class Tetromino:
         GlobalVars.all_objects.append(self)
 
     def draw(self, screen: pygame.Surface) -> None:
-        for position in self.get_all_pos():
+        for position in self.__get_all_pos():
             nw_px: list[int] = [Constants.PLAYBOX_NW[i] + (position[i]*Constants.MINO_SIZE) for i in range(2)]
             rect = (nw_px, self.px_size)
             pygame.draw.rect(screen, self.colour, rect)
@@ -63,12 +63,12 @@ class Tetromino:
 
         # rotate: int = 0
 
-        l_or_r, down = self.__adjust_velos_for_collisions(l_or_r, down)
+        l_or_r, down = self.__adjust_vel_for_collision(l_or_r, down)
 
         self.nw_pos[0] += l_or_r
         self.nw_pos[1] += down
 
-    def get_all_pos(self) -> list[list[int]]:
+    def __get_all_pos(self) -> list[list[int]]:
         all_pos: list[list[int]] = []
         for row in range(self.matrix_size):
             for col in range(self.matrix_size):
@@ -76,18 +76,30 @@ class Tetromino:
                     all_pos.append([(self.nw_pos[0] + col), (self.nw_pos[1] + row)])
         return all_pos
 
-    def __adjust_velos_for_collisions(self, l_or_r: int, down: int) -> tuple[int, int]:
+    def __adjust_vel_for_collision(self, l_or_r: int, down: int) -> tuple[int, int]:
+        # Only runs every Constants.FPS/Level.speed() frames (60 by default)
         l_or_r: int = l_or_r
         down: int = down
 
         # Hit left or right wall
-        for x_pos in map(lambda x: x[0] + l_or_r, self.get_all_pos()):
+        for x_pos in map(lambda x: x[0] + l_or_r, self.__get_all_pos()):
             if not (0 <= x_pos < Constants.GRID_SIZE[0]):
                 l_or_r = 0
 
         # Hit floor
-        for y_pos in map(lambda x: x[1] + down, self.get_all_pos()):
+        for y_pos in map(lambda x: x[1] + down, self.__get_all_pos()):
             if y_pos >= Constants.GRID_SIZE[1]:
                 down = 0
+                self.__stick_to_board()
 
         return l_or_r, down
+
+    def __stick_to_board(self):
+        for block in self.__get_all_pos():
+            GlobalVars.game_board.grid[block[1]][block[0]] = str(self.shape)
+
+        GlobalVars.all_objects.remove(GlobalVars.active_tetromino)
+        GlobalVars.active_tetromino = None
+        del self
+
+        generate()
