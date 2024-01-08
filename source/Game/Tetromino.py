@@ -94,9 +94,12 @@ class Tetromino:
 
         self.nw_pos[0] += l_or_r
         self.nw_pos[1] += down
-        self.matrix = rotated_matrix if allow_rotation else self.matrix
 
+        self.matrix = rotated_matrix if allow_rotation else self.matrix
         self.rotation = new_rotation if allow_rotation else self.rotation
+
+        if keys[pygame.K_SPACE] and time_to_move:
+            self.__hard_drop()
 
     def get_all_pos(self, matrix: list[list[int]] | None = None) -> list[list[int]]:
         matrix = self.matrix if matrix is None else matrix
@@ -108,6 +111,19 @@ class Tetromino:
                 for row in range(len(matrix))
                 for col in range(len(matrix[0]))
                 if matrix[row][col]]
+
+    def __hard_drop(self) -> None:
+        current_pos: list[list[int]] = self.get_all_pos()
+
+        max_drop = Constants.GRID_SIZE[1]
+        for x, y in current_pos:
+            drop = 0
+            while is_valid_position([x, y+drop+1]):
+                drop += 1
+            max_drop = min(max_drop, drop)
+
+        self.nw_pos[1] += max_drop
+        self.__stick_to_board()
 
     def __adjust_vel_for_collision(self, l_or_r: int, down: int, rotated_matrix: list[list[bool]]) \
             -> tuple[int, int, bool]:
@@ -140,5 +156,4 @@ class Tetromino:
         del self
 
         LineCleared.process()
-
         generate_new()

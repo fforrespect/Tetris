@@ -1,4 +1,3 @@
-import sys
 import pygame
 
 from Display import Window
@@ -16,6 +15,7 @@ clock: pygame.time.Clock = pygame.time.Clock()
 Overlays.initialise()
 GlobalVars.game_board = Board.Board()
 
+Tetromino.generate_new()
 
 while GlobalVars.game_running:
     # Loop processing #
@@ -26,9 +26,6 @@ while GlobalVars.game_running:
     # Checks if the red x has been pressed, and quits the game if so
     GameOver.quit_pressed(pygame.event.get())
     # End processing #
-
-    if GlobalVars.elapsed_frames == 100:
-        Tetromino.generate_new()
 
     keys: tuple[bool] = pygame.key.get_pressed()
 
