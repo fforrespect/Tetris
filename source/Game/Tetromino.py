@@ -55,8 +55,16 @@ class Tetromino:
                     rect = (nw_px, self.px_size)
                     pygame.draw.rect(screen, self.colour, rect)
 
-    def move(self, l_or_r: int, down: int = 0):  # , rotate: int = 0):
-        down: int = 1 if (GlobalVars.elapsed_frames % round(Constants.FPS / Level.speed()) == 0) else down
+    def move(self, keys):
+        time_to_move: bool = GlobalVars.elapsed_frames % Constants.MOVE_BUFFER == 0
+        l_or_r: int = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT] if time_to_move else 0
+
+        down = 1 \
+            if ((GlobalVars.elapsed_frames % round(Constants.FPS / Level.speed()) == 0) or
+                (keys[pygame.K_DOWN] and time_to_move)) \
+            else 0
+
+        # rotate: int = 0
 
         self.nw_pos[0] += l_or_r
         self.nw_pos[1] += down

@@ -31,10 +31,10 @@ while GlobalVars.game_running:
     if GlobalVars.elapsed_frames == 100:
         Tetromino.generate()
 
-    if GlobalVars.active_tetromino is not None:
-        GlobalVars.active_tetromino.move(0)
+    keys = pygame.key.get_pressed()
 
-    # keys = pygame.key.get_pressed()
+    if GlobalVars.active_tetromino is not None:
+        GlobalVars.active_tetromino.move(keys)
 
     # Finally, draw everything to the screen
     Window.display(screen)

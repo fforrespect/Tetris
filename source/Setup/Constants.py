@@ -8,6 +8,7 @@ GRID_SIZE: tuple[int, int] = (10, 20)
 
 # Physics #
 FPS: int = 60
+MOVE_BUFFER: int = 10
 
 # Files #
 _RESOURCES_FP: str = "../Resources/"
