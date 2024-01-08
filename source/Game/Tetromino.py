@@ -1,4 +1,5 @@
 import pygame
+import random
 
 from Game import Level
 from Process import Shapes
@@ -6,7 +7,8 @@ from Setup import Constants, GlobalVars, Colours
 
 
 def generate():
-    shape: int = 4  # will do the random generation later
+    rand = random.Random()
+    shape: int = rand.randint(0, 6)
 
     GlobalVars.active_tetromino = Tetromino(shape)
 

@@ -5,7 +5,7 @@ from Display import Window
 from Event import GameOver
 from Game import Board, Tetromino
 from Process import Overlays
-from Setup import Constants, GlobalVars, Colours
+from Setup import Constants, GlobalVars
 
 # Set up pygame
 pygame.init()
