@@ -18,15 +18,14 @@ GlobalVars.game_board = Board.Board()
 
 
 while GlobalVars.game_running:
-    # Loop processing
+    # Loop processing #
     clock.tick(Constants.FPS)
 
     GlobalVars.elapsed_frames += 1
 
     # Checks if the red x has been pressed, and quits the game if so
-    if GameOver.quit_pressed(pygame.event.get()):
-        break
-    # End processing
+    GameOver.quit_pressed(pygame.event.get())
+    # End processing #
 
     if GlobalVars.elapsed_frames == 100:
         Tetromino.generate_new()
@@ -38,7 +37,3 @@ while GlobalVars.game_running:
 
     # Finally, draw everything to the screen
     Window.display(screen)
-
-
-pygame.quit()
-sys.exit()

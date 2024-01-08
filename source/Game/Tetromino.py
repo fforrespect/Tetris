@@ -1,7 +1,7 @@
 import pygame
 import random
 
-from Event import LineCleared
+from Event import LineCleared, GameOver
 from Game import Level
 from Process import Shapes
 from Setup import Constants, GlobalVars, Colours
@@ -13,12 +13,18 @@ def generate_new() -> None:
 
     GlobalVars.active_tetromino = Tetromino(shape)
 
+    if any(not is_valid_position([x, y]) for x, y in GlobalVars.active_tetromino.get_all_pos()):
+        GameOver.top_out()
+
 
 def make_set(list_: list) -> set[tuple[tuple]]:
     return set(tuple(map(tuple, list_)))
 
 
-def is_valid_position(pos: list[int], set_of_filled_board_pos: set) -> bool:
+def is_valid_position(pos: list[int], set_of_filled_board_pos: set[tuple[tuple]] | None = None) -> bool:
+    if set_of_filled_board_pos is None:
+        set_of_filled_board_pos = make_set(GlobalVars.game_board.get_filled_pos())
+
     x, y = pos
     return ((0 <= x < Constants.GRID_SIZE[0]) and
             (0 <= y < Constants.GRID_SIZE[1]) and
@@ -61,7 +67,7 @@ class Tetromino:
         GlobalVars.all_objects.append(self)
 
     def draw(self, screen: pygame.Surface) -> None:
-        for position in self.__get_all_pos():
+        for position in self.get_all_pos():
             nw_px: list[int] = [Constants.PLAYBOX_NW[i] + (position[i]*Constants.MINO_SIZE) for i in range(2)]
             rect = (nw_px, self.px_size)
             pygame.draw.rect(screen, self.colour, rect)
@@ -92,7 +98,7 @@ class Tetromino:
 
         self.rotation = new_rotation if allow_rotation else self.rotation
 
-    def __get_all_pos(self, matrix: list[list[int]] | None = None) -> list[list[int]]:
+    def get_all_pos(self, matrix: list[list[int]] | None = None) -> list[list[int]]:
         matrix = self.matrix if matrix is None else matrix
         # Iterate over each row and col in self.matrix_size,
         # Check if self.matrix[row][col] is equal to 1,
@@ -105,29 +111,28 @@ class Tetromino:
 
     def __adjust_vel_for_collision(self, l_or_r: int, down: int, rotated_matrix: list[list[bool]]) \
             -> tuple[int, int, bool]:
-        current_pos: list[list[int]] = self.__get_all_pos()
-        set_of_filled_board_pos: set = make_set(GlobalVars.game_board.get_filled_pos())
+        current_pos: list[list[int]] = self.get_all_pos()
 
         # Falls on something
-        if any(not is_valid_position([x, y + down], set_of_filled_board_pos)
+        if any(not is_valid_position([x, y + down])
                for x, y in current_pos):
             down = 0
             self.__stick_to_board()
 
         # Hits something while moving l or r
-        if any(not is_valid_position([x + l_or_r, y], set_of_filled_board_pos)
+        if any(not is_valid_position([x + l_or_r, y])
                for x, y in current_pos):
             l_or_r = 0
 
         # Check rotation
-        rotated_pos = self.__get_all_pos(rotated_matrix)
-        allow_rotation = all(is_valid_position(pos, set_of_filled_board_pos)
+        rotated_pos = self.get_all_pos(rotated_matrix)
+        allow_rotation = all(is_valid_position(pos)
                              for pos in rotated_pos)
 
         return l_or_r, down, allow_rotation
 
     def __stick_to_board(self) -> None:
-        for block in self.__get_all_pos():
+        for block in self.get_all_pos():
             GlobalVars.game_board.grid[block[1]][block[0]] = str(self.shape)
 
         GlobalVars.all_objects.remove(GlobalVars.active_tetromino)
