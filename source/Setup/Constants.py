@@ -1,13 +1,9 @@
-# Environment #
-SCREEN_SIZE: tuple[int, int] = (1024, 896)
-
-
+# Text #
 NUMBER_SIZE: tuple[int, int] = (32, 28)
 
+# Overlay Sizes and Positions #
 PLAYBOX_SIZE: tuple[int, int] = (324, 648)
-# PLAYBOX_SIZE: tuple[int, int] = (320, 640)
 PLAYBOX_NW: tuple[int, int] = (380, 156)
-# PLAYBOX_NW: tuple[int, int] = (382, 160)
 
 STATS_TB_SIZE: tuple[int, int] = (280, 516)
 STATS_TB_NW: tuple[int, int] = (52, 296)
@@ -28,9 +24,10 @@ SCORE_TX_NW: tuple[int, int] = (768, 224)
 NEXT_NW: tuple[int, int] = (764, 416)
 NEXT_SIZE: tuple[int, int] = (132, 132)
 
+# Environment #
+SCREEN_SIZE: tuple[int, int] = (1024, 896)
 
 GRID_SIZE: tuple[int, int] = (10, 20)
-# MINO_SIZE: float = 32
 MINO_SIZE: float = PLAYBOX_SIZE[0]/GRID_SIZE[0]
 
 # Physics #
