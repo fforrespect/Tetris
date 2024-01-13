@@ -8,7 +8,9 @@ def init() -> None:
     PlayBox()
     GameBoard()
     Score()
-    TopScore()
+    HighScoreO()
+    Level()
+    Lines()
 
 
 class GameBoard:
@@ -26,17 +28,35 @@ class Score:
         self.NW: tuple[int, int] = Constants.SCORE_TX_NW
         GlobalVars.all_overlays.append(self)
 
-    def draw(self, screen: pygame.Surface):
+    def draw(self, screen: pygame.Surface) -> None:
         Numbers.draw(screen, GlobalVars.score, self.NW, Constants.SCORES_CHARS)
 
 
-class TopScore:
+class HighScoreO:
     def __init__(self):
         self.NW: tuple[int, int] = Constants.TOP_TX_NW
         GlobalVars.all_overlays.append(self)
 
-    def draw(self, screen: pygame.Surface):
+    def draw(self, screen: pygame.Surface) -> None:
         Numbers.draw(screen, HighScore.get(), self.NW, Constants.SCORES_CHARS)
+
+
+class Level:
+    def __init__(self):
+        self.NW: tuple[int, int] = Constants.LEVEL_TX_NW
+        GlobalVars.all_overlays.append(self)
+
+    def draw(self, screen: pygame.Surface) -> None:
+        Numbers.draw(screen, GlobalVars.current_level, self.NW)
+
+
+class Lines:
+    def __init__(self):
+        self.NW: tuple[int, int] = Constants.LINES_TX_NW
+        GlobalVars.all_overlays.append(self)
+
+    def draw(self, screen: pygame.Surface) -> None:
+        Numbers.draw(screen, GlobalVars.total_lines_cleared, self.NW)
 
 
 class PlayBox:

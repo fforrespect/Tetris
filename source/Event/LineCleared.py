@@ -13,4 +13,4 @@ def process() -> None:
 
     GlobalVars.total_lines_cleared += len(lines_to_clear)
     GlobalVars.score += Constants.SCORE_MULTIPLIERS[len(lines_to_clear)] * (GlobalVars.current_level + 1)
-    GlobalVars.current_level = (GlobalVars.total_lines_cleared // Constants.LINES_NEEDED_FOR_NEXT_LEVEL) + 1
+    GlobalVars.current_level = GlobalVars.total_lines_cleared // Constants.LINES_NEEDED_FOR_NEXT_LEVEL
