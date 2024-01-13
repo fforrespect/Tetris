@@ -12,7 +12,7 @@ class Board:
         self.grid: list[list[str]] = [[" "
                                        for __ in range(Constants.GRID_SIZE[0])]
                                        for _ in range(Constants.GRID_SIZE[1])]
-        self.px_size: list[int] = [Constants.MINO_SIZE]*2
+        self.px_size: list[float] = [Constants.MINO_SIZE]*2
 
         GlobalVars.all_overlays.append(self)
 
@@ -27,7 +27,7 @@ class Board:
                     nw_px: list[int] = [(Constants.PLAYBOX_NW[i] + [col, row][i] * Constants.MINO_SIZE) for i in
                                         range(2)]
                     block_image: pygame.image = pygame.image.load(f"{Constants.BLOCK_IMAGES_FP}{content}.png")
-                    block_image = pygame.transform.scale(block_image, ([Constants.MINO_SIZE] * 2))
+                    block_image = pygame.transform.scale(block_image, self.px_size)
                     screen.blit(block_image, nw_px)
 
     def get_invalid_positions(self) -> list[list[int]]:
@@ -36,9 +36,4 @@ class Board:
             for col in range(len(self.grid[row])):
                 if self.grid[row][col] != " ":
                     invalid_positions.append([col, row])
-        # for i in range(Constants.GRID_SIZE[1]):
-        #     invalid_positions.append([-1, i])
-        #     invalid_positions.append([Constants.GRID_SIZE[0], i])
-        # for i in range(Constants.GRID_SIZE[0]):
-        #     invalid_positions.append([i, Constants.GRID_SIZE[1]])
         return invalid_positions

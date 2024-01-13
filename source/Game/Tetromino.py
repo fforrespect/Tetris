@@ -76,7 +76,7 @@ class Tetromino:
         l_or_r: int = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT] if time_to_move else 0
 
         down = 1 \
-            if ((GlobalVars.elapsed_frames % round(Constants.FPS / Level.speed()) == 0) or
+            if ((GlobalVars.elapsed_frames % Level.speed() == 0) or
                 (keys[pygame.K_DOWN] and time_to_move)) \
             else 0
 
