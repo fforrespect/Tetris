@@ -23,7 +23,7 @@ def speed() -> int:
 
     (simplified)
     level   speed (frames/fall)
-    00-08   48 - (5 x level)
+    00-08   48 - (5 * level)
     09-21   5 - ( (level - 10) // 3)
     22–28	2
     29+	    1

@@ -3,7 +3,7 @@ import pygame
 from Display import Window
 from Event import GameOver
 from Game import Board, Tetromino
-from Process import Overlays
+from Process import Overlays, Number
 from Setup import Constants, GlobalVars
 
 # Set up pygame
@@ -12,8 +12,9 @@ screen: pygame.Surface = pygame.display.set_mode(Constants.SCREEN_SIZE)
 clock: pygame.time.Clock = pygame.time.Clock()
 
 # Set up game
-Overlays.initialise()
+Overlays.init()
 GlobalVars.game_board = Board.Board()
+Number.init()
 
 Tetromino.generate_new()
 

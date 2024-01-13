@@ -3,7 +3,7 @@ import pygame
 from Setup import Constants, GlobalVars, Colours
 
 
-class Playbox:
+class Overlay:
     def __init__(self):
         self.rect: pygame.rect = (Constants.PLAYBOX_NW, Constants.PLAYBOX_SIZE)
         self.colour: tuple[int, int, int] = Colours.CYAN
@@ -13,4 +13,4 @@ class Playbox:
 
     def draw(self, screen: pygame.Surface) -> None:
         return
-        pygame.draw.rect(screen, self.colour, self.rect, not self.is_filled)
+        # pygame.draw.rect(screen, self.colour, self.rect, not self.is_filled)

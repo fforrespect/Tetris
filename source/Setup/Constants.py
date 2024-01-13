@@ -12,18 +12,18 @@ PLAYBOX_NW: tuple[int, int] = (380, 156)
 STATS_TB_SIZE: tuple[int, int] = (280, 516)
 STATS_TB_NW: tuple[int, int] = (52, 296)
 
-_LINES_CHARS: int = 3
-LINES_TX_SIZE: tuple[int, int] = (NUMBER_SIZE[0]*_LINES_CHARS, NUMBER_SIZE[1])
+LINES_CHARS: int = 3
+LINES_TX_SIZE: tuple[int, int] = (NUMBER_SIZE[0]*LINES_CHARS, NUMBER_SIZE[1])
 LINES_TX_NW: tuple[int, int] = (608, 64)
 
-_LEVEL_CHARS: int = 3
-LEVEL_TX_SIZE: tuple[int, int] = (NUMBER_SIZE[0]*_LEVEL_CHARS, NUMBER_SIZE[1])
+LEVEL_CHARS: int = 3
+LEVEL_TX_SIZE: tuple[int, int] = (NUMBER_SIZE[0]*LEVEL_CHARS, NUMBER_SIZE[1])
 LEVEL_TX_NW: tuple[int, int] = (800, 640)
 
-_SCORES_CHARS: int = 6
-SCORES_TX_SIZE: tuple[int, int] = (NUMBER_SIZE[0]*_SCORES_CHARS, NUMBER_SIZE[1])
+SCORES_CHARS: int = 6
+SCORES_TX_SIZE: tuple[int, int] = (NUMBER_SIZE[0]*SCORES_CHARS, NUMBER_SIZE[1])
 TOP_TX_NW: tuple[int, int] = (768, 128)
-SCORE_TX_NW: tuple[int, int] = (768, 112)
+SCORE_TX_NW: tuple[int, int] = (768, 224)
 
 NEXT_NW: tuple[int, int] = (764, 416)
 NEXT_SIZE: tuple[int, int] = (132, 132)
@@ -42,6 +42,9 @@ EMPTY_GRID_LINE = [" "] * GRID_SIZE[0]
 
 # Files #
 _RESOURCES_FP: str = "../Resources/"
+
+FONTS_FP: str = f"{_RESOURCES_FP}/Fonts/"
+
 IMAGES_FP: str = f"{_RESOURCES_FP}Images/"
 BLOCK_IMAGES_FP: str = f"{IMAGES_FP}Blocks/"
 GAME_BOARD_OVERLAY_FP: str = f"{IMAGES_FP}game_board.png"

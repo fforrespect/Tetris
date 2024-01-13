@@ -1,7 +1,9 @@
-from Display.Overlays import Playbox, GameBoard
+from Display.Overlays import Playbox, GameBoard, Score
 
 
-def initialise() -> None:
-    Playbox.Playbox()
+def init() -> None:
+    Playbox.Overlay()
     GameBoard.Overlay()
+    Score.Overlay()
+
 
