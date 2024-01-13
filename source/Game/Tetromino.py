@@ -4,7 +4,7 @@ import random
 from Event import LineCleared, GameOver
 from Game import Level
 from Process import Shapes
-from Setup import Constants, GlobalVars, Colours
+from Setup import Constants, GlobalVars
 
 
 def generate_new() -> None:
@@ -21,14 +21,11 @@ def make_set(list_: list) -> set[tuple[tuple]]:
     return set(tuple(map(tuple, list_)))
 
 
-def is_valid_position(pos: list[int], set_of_filled_board_pos: set[tuple[tuple]] | None = None) -> bool:
-    if set_of_filled_board_pos is None:
-        set_of_filled_board_pos = make_set(GlobalVars.game_board.get_filled_pos())
-
+def is_valid_position(pos: list[int]) -> bool:
     x, y = pos
     return ((0 <= x < Constants.GRID_SIZE[0]) and
             (0 <= y < Constants.GRID_SIZE[1]) and
-            ((x, y) not in set_of_filled_board_pos))
+            ((x, y) not in make_set(GlobalVars.game_board.get_filled_pos())))
 
 
 class Tetromino:
@@ -55,7 +52,6 @@ class Tetromino:
         self.px_size: list[int] = [Constants.MINO_SIZE for _ in range(2)]
         self.matrix: list[list[bool]] = Shapes.matrices[shape][rotation]
         self.matrix_size: int = len(self.matrix)
-        self.colour: tuple[int, int, int] = Colours.GREEN  # To be deleted later
 
         self.nw_pos: list[int, int]
         match self.matrix_size:
@@ -69,8 +65,9 @@ class Tetromino:
     def draw(self, screen: pygame.Surface) -> None:
         for position in self.get_all_pos():
             nw_px: list[int] = [Constants.PLAYBOX_NW[i] + (position[i]*Constants.MINO_SIZE) for i in range(2)]
-            rect = (nw_px, self.px_size)
-            pygame.draw.rect(screen, self.colour, rect)
+            block_image: pygame.image = pygame.image.load(f"{Constants.BLOCK_IMAGES_FP}{self.shape}.png")
+            block_image = pygame.transform.scale(block_image, ([Constants.MINO_SIZE]*2))
+            screen.blit(block_image, nw_px)
 
     def move(self, keys: tuple[bool]) -> None:
         time_to_move: bool = GlobalVars.elapsed_frames % Constants.MOVE_BUFFER == 0

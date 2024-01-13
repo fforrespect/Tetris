@@ -15,5 +15,5 @@ EMPTY_GRID_LINE = [" " for _ in range(GRID_SIZE[0])]
 
 # Files #
 _RESOURCES_FP: str = "../Resources/"
-
 IMAGES_FP: str = f"{_RESOURCES_FP}Images/"
+BLOCK_IMAGES_FP: str = f"{IMAGES_FP}Blocks/"
