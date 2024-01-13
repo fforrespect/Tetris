@@ -1,9 +1,8 @@
 import pygame
 
-from Display import Window
+from Display import Window, Numbers, Overlays
 from Event import GameOver
 from Game import Board, Tetromino
-from Process import Overlays, Number
 from Setup import Constants, GlobalVars
 
 # Set up pygame
@@ -14,7 +13,7 @@ clock: pygame.time.Clock = pygame.time.Clock()
 # Set up game
 Overlays.init()
 GlobalVars.game_board = Board.Board()
-Number.init()
+Numbers.init()
 
 Tetromino.generate_new()
 

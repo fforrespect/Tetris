@@ -1,10 +1,13 @@
 import sys
 import pygame
 
+from Process import HighScore
 from Setup import GlobalVars
 
 
 def _quit_all():
+    HighScore.add_new_score()
+
     GlobalVars.game_running = False
     pygame.quit()
     sys.exit()

@@ -43,9 +43,13 @@ EMPTY_GRID_LINE = [" "] * GRID_SIZE[0]
 # Files #
 _RESOURCES_FP: str = "../Resources/"
 
-FONTS_FP: str = f"{_RESOURCES_FP}/Fonts/"
-
+FONTS_FP: str = f"{_RESOURCES_FP}Fonts/"
+SCORES_FP: str = f"{_RESOURCES_FP}Scores/"
 IMAGES_FP: str = f"{_RESOURCES_FP}Images/"
+
+ALL_SCORES_FP: str = f"{SCORES_FP}all_scores.txt"
+HIGH_SCORE_FP: str = f"{SCORES_FP}high_score.txt"
+
 BLOCK_IMAGES_FP: str = f"{IMAGES_FP}Blocks/"
 GAME_BOARD_OVERLAY_FP: str = f"{IMAGES_FP}game_board.png"
 
