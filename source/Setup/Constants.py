@@ -17,7 +17,7 @@ LINES_TX_NW: tuple[int, int] = (608, 64)
 
 LEVEL_CHARS: int = 3
 LEVEL_TX_SIZE: tuple[int, int] = (NUMBER_SIZE[0]*LEVEL_CHARS, NUMBER_SIZE[1])
-LEVEL_TX_NW: tuple[int, int] = (800, 640)
+LEVEL_TX_NW: tuple[int, int] = (124, 126)
 
 SCORES_CHARS: int = 6
 SCORES_TX_SIZE: tuple[int, int] = (NUMBER_SIZE[0]*SCORES_CHARS, NUMBER_SIZE[1])

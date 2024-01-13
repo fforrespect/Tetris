@@ -12,6 +12,7 @@ all_objects:  list[object] = []
 all_overlays: list[object] = []
 
 active_tetromino: Tetromino.Tetromino | None = None
+held_tetromino: Tetromino.Tetromino | None = None
 tetromino_queue: list[Tetromino.Tetromino] = []
 
 game_board: Board.Board | None = None
