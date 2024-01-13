@@ -1,12 +1,15 @@
 # Text #
 NUMBER_SIZE: tuple[int, int] = (32, 28)
 
-# Overlay Sizes and Positions #
+# Overlay Sizes and NW Positions #
 PLAYBOX_SIZE: tuple[int, int] = (324, 648)
 PLAYBOX_NW: tuple[int, int] = (380, 156)
 
 STATS_TB_SIZE: tuple[int, int] = (280, 516)
 STATS_TB_NW: tuple[int, int] = (52, 296)
+STATS_TETRAMINO_NW: tuple[int, int] = (94, 338)
+STATS_NUMBERS_NW: tuple[int, int] = (192, 352)
+STATS_SPACING: int = 64
 
 LINES_CHARS: int = 3
 LINES_TX_SIZE: tuple[int, int] = (NUMBER_SIZE[0]*LINES_CHARS, NUMBER_SIZE[1])
@@ -28,7 +31,8 @@ NEXT_SIZE: tuple[int, int] = (132, 132)
 SCREEN_SIZE: tuple[int, int] = (1024, 896)
 
 GRID_SIZE: tuple[int, int] = (10, 20)
-MINO_SIZE: float = PLAYBOX_SIZE[0]/GRID_SIZE[0]
+MINO_SIZE: float = PLAYBOX_SIZE[0]/GRID_SIZE[0]  # ~32 (32.4 by default)
+MINI_MINO_SIZE: int = 24
 
 # Physics #
 FPS: int = 60

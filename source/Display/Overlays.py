@@ -13,6 +13,7 @@ def init() -> None:
     Level()
     Lines()
     NextPiece()
+    Statistics()
 
 
 class GameBoard:
@@ -70,6 +71,28 @@ class NextPiece:
     def draw(screen: pygame.Surface) -> None:
         next_tetromino: Tetromino.Tetromino = GlobalVars.tetromino_queue[0]
         next_tetromino.draw(screen, True)
+
+
+class Statistics:
+    def __init__(self):
+        self.tet_NW: tuple[int, int] = Constants.STATS_TETRAMINO_NW
+        self.num_NW: tuple[int, int] = Constants.STATS_NUMBERS_NW
+
+        self.tetromino_order: tuple = (4, 5, 2, 0, 3, 6, 1)
+        self.tetrominoes = [Tetromino.Tetromino(shape, is_in_queue=False, is_small=True)
+                            for shape in self.tetromino_order]
+
+        GlobalVars.all_overlays.append(self)
+
+    def draw(self, screen: pygame.Surface) -> None:
+        for i, tetromino in enumerate(self.tetrominoes):
+            tet_nw_i = (self.tet_NW[0], self.tet_NW[1] + Constants.STATS_SPACING*i)
+            tetromino.draw(screen, base_nw=tet_nw_i)
+            Numbers.draw(
+                screen,
+                GlobalVars.tetromino_statistics[tetromino.shape],
+                (self.num_NW[0], self.num_NW[1] + Constants.STATS_SPACING*i)
+            )
 
 
 class PlayBox:

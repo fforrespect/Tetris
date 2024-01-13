@@ -40,7 +40,7 @@ def is_valid_block_position(pos: list[int]) -> bool:
 
 
 class Tetromino:
-    def __init__(self, shape: int, is_in_queue: bool = True):
+    def __init__(self, shape: int, is_in_queue: bool = True, is_small: bool = False):
         """
         :param shape:
            -1: just a dot (debug)
@@ -59,38 +59,48 @@ class Tetromino:
 
         self.shape: int = shape
         self.is_in_queue: bool = is_in_queue
+        self.is_small: bool = is_small
 
         self.rotation: int = 0
-        self.px_size: list[float] = [Constants.MINO_SIZE]*2
+        self.px_size: list[float] = [Constants.MINO_SIZE if not self.is_small else Constants.MINI_MINO_SIZE] * 2
         self.matrix: list[list[bool]] = Shapes.matrices[shape][self.rotation]
         self.matrix_size: int = len(self.matrix)
 
         self.nw_pos: list[int, int]
         match self.matrix_size:
-            case 1:     self.nw_pos = [5, 0]
-            case 2 | 3: self.nw_pos = [4, 0]
-            case 4:     self.nw_pos = [3, -1]
-            case _:     raise Exception("Invalid matrix")
+            case 1:
+                self.nw_pos = [5, 0]
+            case 2 | 3:
+                self.nw_pos = [4, 0]
+            case 4:
+                self.nw_pos = [3, -1]
+            case _:
+                raise Exception("Invalid matrix")
 
         GlobalVars.all_objects.append(self)
 
-    def draw(self, screen: pygame.Surface, is_next: bool = False) -> None:
-        if self.is_in_queue and not is_next:
+    def draw(self, screen: pygame.Surface, is_next: bool = False, base_nw: tuple[int, int] = None) -> None:
+        if (self.is_in_queue and not is_next) or \
+                (self.is_small and base_nw is None):
             return
 
         rotated_matrix: list[list[bool]] = Shapes.matrices[self.shape][1]
 
         positions = self.get_all_pos(rotated_matrix if self.is_in_queue else None)
-        x_adj, y_adj = (0, 0)
+        x_adj: float = 0; y_adj: float = 0
         if is_next:
-            x_adj: float = -(min([pos[0] for pos in positions]) - 1) + (0.5 if self.matrix_size == 4 else 0)
-            y_adj: float = 1 - (0.5 if self.matrix_size == 3 else 0)
+            x_adj = -(min([pos[0] for pos in positions]) - 1) + (0.5 if self.matrix_size == 4 else 0)
+            y_adj = 0.5 if self.matrix_size == 3 else 1
+        if base_nw is not None:
+            x_adj = -(3.5 + (0.5 if self.shape in (2, 3, 4, 5, 6) else 0))
+            y_adj = 0.75 if self.shape == 1 else 0
         adj: tuple[float, float] = (x_adj, y_adj)
 
-        base_nw: tuple[int, int] = Constants.NEXT_NW if is_next else Constants.PLAYBOX_NW
+        base_nw: tuple[int, int] = (Constants.NEXT_NW if is_next else Constants.PLAYBOX_NW) \
+            if base_nw is None else base_nw
 
         for position in positions:
-            nw_px: list[int] = [base_nw[i] + ((position[i] + adj[i]) * Constants.MINO_SIZE)
+            nw_px: list[int] = [base_nw[i] + ((position[i] + adj[i]) * self.px_size[0])
                                 for i in range(2)]
             block_image: pygame.image = pygame.image.load(f"{Constants.BLOCK_IMAGES_FP}{self.shape}.png")
             block_image = pygame.transform.scale(block_image, self.px_size)
