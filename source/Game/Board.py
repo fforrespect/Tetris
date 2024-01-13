@@ -1,6 +1,6 @@
 import pygame
 
-from Setup import Colours, Constants, GlobalVars
+from Setup import Constants, GlobalVars
 
 
 class Board:
@@ -13,10 +13,12 @@ class Board:
     def draw(self, screen: pygame.Surface):
         for row in range(len(self.grid)):
             for col in range(len(self.grid[row])):
-                if self.grid[row][col] != " ":
+                content: str = self.grid[row][col]
+                if content != " ":
                     nw_px: list[int] = [(Constants.PLAYBOX_NW[i] + [col, row][i]*Constants.MINO_SIZE) for i in range(2)]
-                    rect = (nw_px, self.px_size)
-                    pygame.draw.rect(screen, Colours.BLUE, rect)
+                    block_image: pygame.image = pygame.image.load(f"{Constants.BLOCK_IMAGES_FP}{content}.png")
+                    block_image = pygame.transform.scale(block_image, ([Constants.MINO_SIZE]*2))
+                    screen.blit(block_image, nw_px)
 
     def get_filled_pos(self) -> list[list[int]]:
         filled_pos: list[list[int]] = []

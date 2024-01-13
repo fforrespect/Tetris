@@ -22,10 +22,12 @@ def make_set(list_: list) -> set[tuple[tuple]]:
 
 
 def is_valid_position(pos: list[int]) -> bool:
+    set_of_valid_positions: set[tuple[tuple]] = make_set(GlobalVars.game_board.get_filled_pos())
+
     x, y = pos
     return ((0 <= x < Constants.GRID_SIZE[0]) and
             (0 <= y < Constants.GRID_SIZE[1]) and
-            ((x, y) not in make_set(GlobalVars.game_board.get_filled_pos())))
+            ((x, y) not in set_of_valid_positions))
 
 
 class Tetromino:
