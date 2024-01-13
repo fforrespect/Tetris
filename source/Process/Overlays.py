@@ -2,5 +2,5 @@ from Display.Overlays import Playbox, Debug
 
 
 def initialise() -> None:
-    Playbox.Playbox()
+    Playbox.Overlay()
     Debug.Grid()
