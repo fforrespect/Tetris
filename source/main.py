@@ -12,9 +12,10 @@ screen: pygame.Surface = pygame.display.set_mode(Constants.SCREEN_SIZE)
 clock: pygame.time.Clock = pygame.time.Clock()
 
 # Set up game
+Tetromino.init()
 Overlays.init()
-GlobalVars.game_board = Board.Board()
 Numbers.init()
+GlobalVars.game_board = Board.Board()
 
 Tetromino.generate_new()
 

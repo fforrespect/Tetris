@@ -1,5 +1,6 @@
 import pygame
 
+from Game import Tetromino
 from Process import Numbers, HighScore
 from Setup import Constants, GlobalVars, Colours
 
@@ -11,6 +12,7 @@ def init() -> None:
     HighScoreO()
     Level()
     Lines()
+    NextPiece()
 
 
 class GameBoard:
@@ -57,6 +59,17 @@ class Lines:
 
     def draw(self, screen: pygame.Surface) -> None:
         Numbers.draw(screen, GlobalVars.total_lines_cleared, self.NW)
+
+
+class NextPiece:
+    def __init__(self):
+        self.NW: tuple[int, int] = Constants.NEXT_NW
+        GlobalVars.all_overlays.append(self)
+
+    @staticmethod
+    def draw(screen: pygame.Surface) -> None:
+        next_tetromino: Tetromino.Tetromino = GlobalVars.tetromino_queue[0]
+        next_tetromino.draw(screen, True)
 
 
 class PlayBox:
