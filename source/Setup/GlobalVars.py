@@ -15,3 +15,5 @@ active_tetromino: Tetromino.Tetromino | None = None
 tetromino_queue: list[Tetromino.Tetromino] = []
 
 game_board: Board.Board | None = None
+
+tetromino_statistics: list[int] = [0] * 7

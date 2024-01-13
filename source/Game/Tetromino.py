@@ -16,6 +16,7 @@ def generate_new() -> None:
     make_random_tetromino()
     GlobalVars.active_tetromino = GlobalVars.tetromino_queue.pop(0)
     GlobalVars.active_tetromino.is_in_queue = False
+    GlobalVars.tetromino_statistics[GlobalVars.active_tetromino.shape] += 1
 
     if any(not is_valid_block_position([x, y]) for x, y in GlobalVars.active_tetromino.get_all_pos()):
         GameOver.top_out()
