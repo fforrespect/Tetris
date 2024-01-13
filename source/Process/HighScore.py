@@ -13,6 +13,8 @@ def get() -> int:
 
 
 def add_new_score() -> None:
+    if GlobalVars.score == 0:
+        return
     with open(Constants.ALL_SCORES_FP, "a") as file:
         file.write(str(GlobalVars.score) + "\n")
         check()
