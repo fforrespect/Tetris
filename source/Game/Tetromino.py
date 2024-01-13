@@ -14,9 +14,7 @@ def init() -> None:
 
 def generate_new() -> None:
     make_random_tetromino()
-    GlobalVars.active_tetromino = GlobalVars.tetromino_queue.pop(0)
-    GlobalVars.active_tetromino.is_in_queue = False
-    GlobalVars.tetromino_statistics[GlobalVars.active_tetromino.shape] += 1
+    GlobalVars.tetromino_queue.pop(0).becomes_active()
 
     if any(not is_valid_block_position([x, y]) for x, y in GlobalVars.active_tetromino.get_all_pos()):
         GameOver.top_out()
@@ -25,7 +23,7 @@ def generate_new() -> None:
 def make_random_tetromino() -> None:
     rand = random.Random()
     shape: int = rand.randint(0, 6)
-    GlobalVars.tetromino_queue.append(Tetromino(shape, True))
+    GlobalVars.tetromino_queue.append(Tetromino(shape))
 
 
 def make_set(list_: list) -> set[tuple[tuple]]:
@@ -42,7 +40,7 @@ def is_valid_block_position(pos: list[int]) -> bool:
 
 
 class Tetromino:
-    def __init__(self, shape: int, rotation: int = 0, is_in_queue: bool = True):
+    def __init__(self, shape: int, is_in_queue: bool = True):
         """
         :param shape:
            -1: just a dot (debug)
@@ -55,19 +53,16 @@ class Tetromino:
             6: L-piece
         :type shape: int
 
-        :param rotation: The rotation of the object / 90°
-        :type rotation: int
-
         :param is_in_queue: Is the piece currently in the queue, or should it be displayed?
         :type is_in_queue: bool
         """
 
         self.shape: int = shape
-        self.rotation: int = rotation
         self.is_in_queue: bool = is_in_queue
 
+        self.rotation: int = 0
         self.px_size: list[float] = [Constants.MINO_SIZE]*2
-        self.matrix: list[list[bool]] = Shapes.matrices[shape][rotation]
+        self.matrix: list[list[bool]] = Shapes.matrices[shape][self.rotation]
         self.matrix_size: int = len(self.matrix)
 
         self.nw_pos: list[int, int]
@@ -83,14 +78,16 @@ class Tetromino:
         if self.is_in_queue and not is_next:
             return
 
-        positions = self.get_all_pos()
+        rotated_matrix: list[list[bool]] = Shapes.matrices[self.shape][1]
+
+        positions = self.get_all_pos(rotated_matrix if self.is_in_queue else None)
         x_adj, y_adj = (0, 0)
         if is_next:
             x_adj: float = -(min([pos[0] for pos in positions]) - 1) + (0.5 if self.matrix_size == 4 else 0)
             y_adj: float = 1 - (0.5 if self.matrix_size == 3 else 0)
         adj: tuple[float, float] = (x_adj, y_adj)
 
-        base_nw = Constants.NEXT_NW if is_next else Constants.PLAYBOX_NW
+        base_nw: tuple[int, int] = Constants.NEXT_NW if is_next else Constants.PLAYBOX_NW
 
         for position in positions:
             nw_px: list[int] = [base_nw[i] + ((position[i] + adj[i]) * Constants.MINO_SIZE)
@@ -109,7 +106,7 @@ class Tetromino:
             else 0
 
         new_rotation: int = (self.rotation + (keys[pygame.K_UP] - keys[pygame.K_c])) % 4
-        rotated_matrix: list[list[bool]] = Shapes.matrices[ self.shape][new_rotation]
+        rotated_matrix: list[list[bool]] = Shapes.matrices[self.shape][new_rotation]
 
         allow_rotation: bool
         l_or_r, down, allow_rotation = self.__adjust_vel_for_collision(
@@ -131,6 +128,11 @@ class Tetromino:
 
         if keys[pygame.K_SPACE] and time_to_move:
             self.__hard_drop()
+
+    def becomes_active(self):
+        self.is_in_queue = False
+        GlobalVars.tetromino_statistics[self.shape] += 1
+        GlobalVars.active_tetromino = self
 
     def get_all_pos(self, matrix: list[list[int]] | None = None) -> list[list[int]]:
         matrix = self.matrix if matrix is None else matrix
