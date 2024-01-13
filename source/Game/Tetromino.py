@@ -23,7 +23,7 @@ def make_set(list_: list) -> set[tuple[tuple]]:
 
 def is_valid_position(pos: list[int], set_of_filled_board_pos: set[tuple[tuple]] | None = None) -> bool:
     if set_of_filled_board_pos is None:
-        set_of_filled_board_pos = make_set(GlobalVars.game_board.get_filled_pos())
+        set_of_filled_board_pos = make_set(GlobalVars.game_board.get_invalid_positions())
 
     x, y = pos
     return ((0 <= x < Constants.GRID_SIZE[0]) and
