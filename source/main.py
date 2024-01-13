@@ -1,6 +1,7 @@
 import pygame
 
-from Display import Window, Numbers, Overlays
+from Display import Window, Overlays
+from Process import Numbers
 from Event import GameOver
 from Game import Board, Tetromino
 from Setup import Constants, GlobalVars

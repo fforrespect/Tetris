@@ -9,12 +9,12 @@ def check() -> None:
 
 def get() -> int:
     with open(Constants.HIGH_SCORE_FP, "r") as file:
-        return int(file.read())
+        return int(str(file.read()))
 
 
 def add_new_score() -> None:
-    with open(Constants.HIGH_SCORE_FP, "a") as file:
-        file.write("\n" + str(GlobalVars.score))
+    with open(Constants.ALL_SCORES_FP, "a") as file:
+        file.write(str(GlobalVars.score) + "\n")
         check()
 
 

@@ -1,6 +1,6 @@
 import pygame
 
-from Display import Numbers
+from Process import Numbers, HighScore
 from Setup import Constants, GlobalVars, Colours
 
 
@@ -8,6 +8,7 @@ def init() -> None:
     PlayBox()
     GameBoard()
     Score()
+    TopScore()
 
 
 class GameBoard:
@@ -27,6 +28,15 @@ class Score:
 
     def draw(self, screen: pygame.Surface):
         Numbers.draw(screen, GlobalVars.score, self.NW, Constants.SCORES_CHARS)
+
+
+class TopScore:
+    def __init__(self):
+        self.NW: tuple[int, int] = Constants.TOP_TX_NW
+        GlobalVars.all_overlays.append(self)
+
+    def draw(self, screen: pygame.Surface):
+        Numbers.draw(screen, HighScore.get(), self.NW, Constants.SCORES_CHARS)
 
 
 class PlayBox:
