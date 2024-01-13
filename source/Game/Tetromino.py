@@ -51,7 +51,7 @@ class Tetromino:
         self.shape: int = shape
         self.rotation: int = rotation
 
-        self.px_size: list[int] = [Constants.MINO_SIZE for _ in range(2)]
+        self.px_size: list[float] = [Constants.MINO_SIZE]*2
         self.matrix: list[list[bool]] = Shapes.matrices[shape][rotation]
         self.matrix_size: int = len(self.matrix)
 
@@ -68,7 +68,7 @@ class Tetromino:
         for position in self.get_all_pos():
             nw_px: list[int] = [Constants.PLAYBOX_NW[i] + (position[i]*Constants.MINO_SIZE) for i in range(2)]
             block_image: pygame.image = pygame.image.load(f"{Constants.BLOCK_IMAGES_FP}{self.shape}.png")
-            block_image = pygame.transform.scale(block_image, ([Constants.MINO_SIZE]*2))
+            block_image = pygame.transform.scale(block_image, self.px_size)
             screen.blit(block_image, nw_px)
 
     def move(self, keys: tuple[bool]) -> None:
