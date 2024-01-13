@@ -13,7 +13,7 @@ def generate_new() -> None:
 
     GlobalVars.active_tetromino = Tetromino(shape)
 
-    if any(not is_valid_position([x, y]) for x, y in GlobalVars.active_tetromino.get_all_pos()):
+    if any(not is_valid_block_position([x, y]) for x, y in GlobalVars.active_tetromino.get_all_pos()):
         GameOver.top_out()
 
 
@@ -21,13 +21,13 @@ def make_set(list_: list) -> set[tuple[tuple]]:
     return set(tuple(map(tuple, list_)))
 
 
-def is_valid_position(pos: list[int]) -> bool:
-    set_of_valid_positions: set[tuple[tuple]] = make_set(GlobalVars.game_board.get_filled_pos())
+def is_valid_block_position(pos: list[int]) -> bool:
+    set_of_invalid_positions: set[tuple[tuple]] = make_set(GlobalVars.game_board.get_invalid_positions())
 
     x, y = pos
     return ((0 <= x < Constants.GRID_SIZE[0]) and
             (0 <= y < Constants.GRID_SIZE[1]) and
-            ((x, y) not in set_of_valid_positions))
+            ((x, y) not in set_of_invalid_positions))
 
 
 class Tetromino:
@@ -83,16 +83,20 @@ class Tetromino:
         new_rotation: int = (self.rotation + (keys[pygame.K_UP] - keys[pygame.K_c])) % 4
         rotated_matrix: list[list[bool]] = Shapes.matrices[ self.shape][new_rotation]
 
+        allow_rotation: bool
         l_or_r, down, allow_rotation = self.__adjust_vel_for_collision(
             l_or_r,
             down,
             rotated_matrix
         )
 
-        allow_rotation = allow_rotation and time_to_move
-
         self.nw_pos[0] += l_or_r
         self.nw_pos[1] += down
+
+        allow_rotation = (allow_rotation and
+                          time_to_move and
+                          all(is_valid_block_position([x, y])
+                              for x, y in self.get_all_pos(rotated_matrix)))
 
         self.matrix = rotated_matrix if allow_rotation else self.matrix
         self.rotation = new_rotation if allow_rotation else self.rotation
@@ -117,32 +121,40 @@ class Tetromino:
         max_drop = Constants.GRID_SIZE[1]
         for x, y in current_pos:
             drop = 0
-            while is_valid_position([x, y+drop+1]):
+            while is_valid_block_position([x, y + drop + 1]):
                 drop += 1
             max_drop = min(max_drop, drop)
 
         self.nw_pos[1] += max_drop
         self.__stick_to_board()
 
-    def __adjust_vel_for_collision(self, l_or_r: int, down: int, rotated_matrix: list[list[bool]]) \
-            -> tuple[int, int, bool]:
+    def __adjust_vel_for_collision(
+            self,
+            l_or_r: int,
+            down: int,
+            rotated_matrix: list[list[bool]]) -> tuple[int, int, bool]:
+
         current_pos: list[list[int]] = self.get_all_pos()
+        able_to_stick: bool = False
 
         # Falls on something
-        if any(not is_valid_position([x, y + down])
+        if any(not is_valid_block_position([x, y + down])
                for x, y in current_pos):
             down = 0
-            self.__stick_to_board()
+            able_to_stick = True
 
         # Hits something while moving l or r
-        if any(not is_valid_position([x + l_or_r, y])
+        if any(not is_valid_block_position([x + l_or_r, y])
                for x, y in current_pos):
             l_or_r = 0
 
         # Check rotation
-        rotated_pos = self.get_all_pos(rotated_matrix)
-        allow_rotation = all(is_valid_position(pos)
-                             for pos in rotated_pos)
+        rotated_pos: list[list[int]] = self.get_all_pos(rotated_matrix)
+        allow_rotation: bool = all(is_valid_block_position(pos)
+                                   for pos in rotated_pos)
+
+        if able_to_stick and allow_rotation:
+            self.__stick_to_board()
 
         return l_or_r, down, allow_rotation
 

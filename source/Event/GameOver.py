@@ -19,6 +19,5 @@ def quit_pressed(events):
 
 def top_out():
     print("Topped out!")
-    for i in GlobalVars.game_board.grid:
-        print(i)
+    print(GlobalVars.game_board)
     _quit_all()
