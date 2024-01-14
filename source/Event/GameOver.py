@@ -1,18 +1,16 @@
 import sys
 import pygame
 
-from Event import ToppedOut
 from Process import HighScore
 from Setup import GlobalVars as gv
 
 
 def quit_all():
     HighScore.add_new_score()
-    print(gv.game_board)
-    print("Score:", gv.score)
 
     gv.game_running = False
     gv.outro_running = False
+
     pygame.quit()
     sys.exit()
 

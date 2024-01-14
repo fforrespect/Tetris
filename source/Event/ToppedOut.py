@@ -6,8 +6,6 @@ from Setup import Constants as c, GlobalVars as gv, Colours
 
 
 def run(screen: pygame.Surface, clock: pygame.time.Clock):
-    print("Topped out!")
-
     gv.game_running = False
     gv.outro_running = True
 
