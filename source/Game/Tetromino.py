@@ -125,6 +125,9 @@ class Tetromino:
                 (keys[pygame.K_DOWN] and time_to_move)) \
             else 0
 
+        if keys[pygame.K_DOWN] and time_to_move:
+            GlobalVars.score += 1
+
         new_rotation: int = (self.rotation + (keys[pygame.K_UP] - keys[pygame.K_c])) % 4
         rotated_matrix: list[list[bool]] = Shapes.matrices[self.shape][new_rotation]
 
@@ -178,6 +181,8 @@ class Tetromino:
             while is_valid_block_position([x, y + drop + 1]):
                 drop += 1
             max_drop = min(max_drop, drop)
+
+        GlobalVars.score += 2*max_drop
 
         self.nw_pos[1] += max_drop
         self.__stick_to_board()

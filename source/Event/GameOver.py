@@ -7,6 +7,8 @@ from Setup import GlobalVars
 
 def _quit_all():
     HighScore.add_new_score()
+    print(GlobalVars.game_board)
+    print("Score:", GlobalVars.score)
 
     GlobalVars.game_running = False
     pygame.quit()
@@ -22,5 +24,4 @@ def quit_pressed(events):
 
 def top_out():
     print("Topped out!")
-    print(GlobalVars.game_board)
     _quit_all()
