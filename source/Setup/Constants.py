@@ -1,3 +1,5 @@
+import pygame
+
 # Text #
 NUMBER_SIZE: tuple[int, int] = (32, 28)
 
@@ -38,7 +40,20 @@ MINI_MINO_SIZE: int = 24
 
 # Physics #
 FPS: int = 60
-MOVE_BUFFER: int = 10
+KEY_PRESS_DELAY: int = 100
+KEY_PRESS_INTERVAL: int = 50
+
+# Controls #
+K_MOVE_LEFT: int = pygame.K_LEFT
+K_MOVE_RIGHT: int = pygame.K_RIGHT
+
+K_ROTATE_CW: int = pygame.K_UP
+K_ROTATE_ACW: int = pygame.K_c
+
+K_SOFT_DROP: int = pygame.K_DOWN
+K_HARD_DROP: int = pygame.K_SPACE
+
+K_HOLD_PIECE: int = pygame.K_z
 
 # Grid #
 EMPTY_GRID_LINE = [" "] * GRID_SIZE[0]

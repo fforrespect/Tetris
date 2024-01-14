@@ -1,4 +1,5 @@
 from Game import Board, Tetromino
+from Process import KeyPresses
 
 current_level: int = 0
 score: int = 0
@@ -18,3 +19,5 @@ tetromino_queue: list[Tetromino.Tetromino] = []
 game_board: Board.Board | None = None
 
 tetromino_statistics: list[int] = [0] * 7
+
+key_tracker: KeyPresses.Tracker | None = None

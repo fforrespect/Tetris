@@ -1,7 +1,7 @@
 import pygame
 import numpy as np
 
-from Setup import Constants, GlobalVars
+from Setup import Constants as c, GlobalVars as gv
 
 
 def get_printable(grid) -> str:
@@ -11,11 +11,11 @@ def get_printable(grid) -> str:
 class Board:
     def __init__(self):
         self.grid: list[list[str]] = [[" "
-                                       for __ in range(Constants.GRID_SIZE[0])]
-                                       for _ in range(Constants.GRID_SIZE[1])]
-        self.px_size: list[float] = [Constants.MINO_SIZE]*2
+                                       for __ in range(c.GRID_SIZE[0])]
+                                       for _ in range(c.GRID_SIZE[1])]
+        self.px_size: list[float] = [c.MINO_SIZE]*2
 
-        GlobalVars.all_overlays.add(self)
+        gv.all_overlays.add(self)
 
     def __str__(self) -> str:
         return get_printable(self.grid)
@@ -25,9 +25,9 @@ class Board:
             for col in range(len(self.grid[row])):
                 content: str = self.grid[row][col]
                 if content != " ":
-                    nw_px: list[int] = [(Constants.PLAYBOX_NW[i] + [col, row][i] * Constants.MINO_SIZE) for i in
+                    nw_px: list[int] = [(c.PLAYBOX_NW[i] + [col, row][i] * c.MINO_SIZE) for i in
                                         range(2)]
-                    block_image: pygame.image = pygame.image.load(f"{Constants.BLOCK_IMAGES_FP}{content}.png")
+                    block_image: pygame.image = pygame.image.load(f"{c.BLOCK_IMAGES_FP}{content}.png")
                     block_image = pygame.transform.scale(block_image, self.px_size)
                     screen.blit(block_image, nw_px)
 

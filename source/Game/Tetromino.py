@@ -4,7 +4,7 @@ import random
 from Event import LineCleared, GameOver
 from Game import Level
 from Process import Shapes
-from Setup import Constants, GlobalVars
+from Setup import Constants as c, GlobalVars as gv
 
 
 def init() -> None:
@@ -14,16 +14,16 @@ def init() -> None:
 
 def generate_new() -> None:
     make_random_tetromino()
-    GlobalVars.tetromino_queue.pop(0).activate()
+    gv.tetromino_queue.pop(0).activate()
 
-    if any(not is_valid_block_position([x, y]) for x, y in GlobalVars.active_tetromino.get_all_pos()):
+    if any(not is_valid_block_position([x, y]) for x, y in gv.active_tetromino.get_all_pos()):
         GameOver.top_out()
 
 
 def make_random_tetromino() -> None:
     rand = random.Random()
     shape: int = rand.randint(0, 6)
-    GlobalVars.tetromino_queue.append(Tetromino(shape))
+    gv.tetromino_queue.append(Tetromino(shape))
 
 
 def make_set(list_: list) -> set[tuple[tuple]]:
@@ -31,11 +31,11 @@ def make_set(list_: list) -> set[tuple[tuple]]:
 
 
 def is_valid_block_position(pos: list[int]) -> bool:
-    set_of_invalid_positions: set[tuple[tuple]] = make_set(GlobalVars.game_board.get_invalid_positions())
+    set_of_invalid_positions: set[tuple[tuple]] = make_set(gv.game_board.get_invalid_positions())
 
     x, y = pos
-    return ((0 <= x < Constants.GRID_SIZE[0]) and
-            (y < Constants.GRID_SIZE[1]) and
+    return ((0 <= x < c.GRID_SIZE[0]) and
+            (y < c.GRID_SIZE[1]) and
             ((x, y) not in set_of_invalid_positions))
 
 
@@ -76,13 +76,13 @@ class Tetromino:
         self.rotation: int = 0
         self.is_being_held: bool = False
         self.has_used_hold: bool = False
-        self.px_size: list[float] = [Constants.MINO_SIZE if not self.is_small else Constants.MINI_MINO_SIZE] * 2
+        self.px_size: list[float] = [c.MINO_SIZE if not self.is_small else c.MINI_MINO_SIZE] * 2
         self.matrix: list[list[bool]] = Shapes.matrices[shape][self.rotation]
         self.matrix_size: int = len(self.matrix)
 
         self.nw_pos: list[int] = get_initial_nw_pos(self.matrix_size)
 
-        GlobalVars.all_objects.add(self)
+        gv.all_objects.add(self)
 
     def draw(self, screen: pygame.Surface, is_next: bool = False, base_nw: tuple[int, int] = None) -> None:
         if (self.is_inactive and not is_next and not self.is_being_held) or \
@@ -103,32 +103,33 @@ class Tetromino:
 
         if base_nw is None:
             if is_next:
-                base_nw = Constants.NEXT_NW
+                base_nw = c.NEXT_NW
             elif self.is_being_held:
-                base_nw = Constants.HOLD_NW
+                base_nw = c.HOLD_NW
             else:
-                base_nw = Constants.PLAYBOX_NW
+                base_nw = c.PLAYBOX_NW
 
         for position in positions:
             nw_px: list[int] = [base_nw[i] + ((position[i] + adj[i]) * self.px_size[0])
                                 for i in range(2)]
-            block_image: pygame.image = pygame.image.load(f"{Constants.BLOCK_IMAGES_FP}{self.shape}.png")
+            block_image: pygame.image = pygame.image.load(f"{c.BLOCK_IMAGES_FP}{self.shape}.png")
             block_image = pygame.transform.scale(block_image, self.px_size)
             screen.blit(block_image, nw_px)
 
     def move(self, keys: tuple[bool]) -> None:
-        time_to_move: bool = GlobalVars.elapsed_frames % Constants.MOVE_BUFFER == 0
-        l_or_r: int = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT] if time_to_move else 0
+        # time_to_move: bool = gv.elapsed_frames % C.MOVE_BUFFER == 0
+        time_to_move = True
+        l_or_r: int = keys[c.K_MOVE_RIGHT] - keys[c.K_MOVE_LEFT] if time_to_move else 0
 
         down = 1 \
-            if ((GlobalVars.elapsed_frames % Level.speed() == 0) or
-                (keys[pygame.K_DOWN] and time_to_move)) \
+            if ((gv.elapsed_frames % Level.speed() == 0) or
+                (keys[c.K_SOFT_DROP] and time_to_move)) \
             else 0
 
-        if keys[pygame.K_DOWN] and time_to_move:
-            GlobalVars.score += 1
+        if keys[c.K_SOFT_DROP] and time_to_move:
+            gv.score += 1
 
-        new_rotation: int = (self.rotation + (keys[pygame.K_UP] - keys[pygame.K_c])) % 4
+        new_rotation: int = (self.rotation + (keys[c.K_ROTATE_CW] - keys[c.K_ROTATE_ACW])) % 4
         rotated_matrix: list[list[bool]] = Shapes.matrices[self.shape][new_rotation]
 
         allow_rotation: bool
@@ -149,16 +150,16 @@ class Tetromino:
         self.matrix = rotated_matrix if allow_rotation else self.matrix
         self.rotation = new_rotation if allow_rotation else self.rotation
 
-        if keys[pygame.K_SPACE] and time_to_move:
+        if keys[c.K_HARD_DROP] and time_to_move:
             self.__hard_drop()
 
-        if keys[pygame.K_z] and time_to_move:
+        if keys[c.K_HOLD_PIECE] and time_to_move:
             self.__hold()
 
     def activate(self) -> None:
         self.is_inactive = False
-        GlobalVars.tetromino_statistics[self.shape] += 1
-        GlobalVars.active_tetromino = self
+        gv.tetromino_statistics[self.shape] += 1
+        gv.active_tetromino = self
 
     def get_all_pos(self, matrix: list[list[int]] | None = None) -> list[list[int]]:
         matrix = self.matrix if matrix is None else matrix
@@ -175,37 +176,37 @@ class Tetromino:
     def __hard_drop(self) -> None:
         current_pos: list[list[int]] = self.get_all_pos()
 
-        max_drop = Constants.GRID_SIZE[1]
+        max_drop = c.GRID_SIZE[1]
         for x, y in current_pos:
             drop = 0
             while is_valid_block_position([x, y + drop + 1]):
                 drop += 1
             max_drop = min(max_drop, drop)
 
-        GlobalVars.score += 2*max_drop
+        gv.score += 2*max_drop
 
         self.nw_pos[1] += max_drop
         self.__stick_to_board()
 
     def __hold(self) -> None:
-        if GlobalVars.held_tetromino is None:
-            GlobalVars.held_tetromino = GlobalVars.active_tetromino
-            GlobalVars.tetromino_queue.pop(0).activate()
+        if gv.held_tetromino is None:
+            gv.held_tetromino = gv.active_tetromino
+            gv.tetromino_queue.pop(0).activate()
         else:
-            if GlobalVars.active_tetromino.has_used_hold:
+            if gv.active_tetromino.has_used_hold:
                 return
-            GlobalVars.active_tetromino, GlobalVars.held_tetromino = (
-                GlobalVars.held_tetromino, GlobalVars.active_tetromino)
+            gv.active_tetromino, gv.held_tetromino = (
+                gv.held_tetromino, gv.active_tetromino)
 
-        GlobalVars.active_tetromino.has_used_hold = True
+        gv.active_tetromino.has_used_hold = True
 
-        GlobalVars.held_tetromino.is_being_held = True
-        GlobalVars.active_tetromino.is_being_held = False
+        gv.held_tetromino.is_being_held = True
+        gv.active_tetromino.is_being_held = False
 
-        GlobalVars.held_tetromino.is_inactive = True
-        GlobalVars.active_tetromino.is_inactive = False
+        gv.held_tetromino.is_inactive = True
+        gv.active_tetromino.is_inactive = False
 
-        GlobalVars.active_tetromino.nw_pos = get_initial_nw_pos(self.matrix_size)
+        gv.active_tetromino.nw_pos = get_initial_nw_pos(self.matrix_size)
 
     def __adjust_vel_for_collision(
             self,
@@ -241,10 +242,10 @@ class Tetromino:
         print()
         print(self.get_all_pos())
         for block in self.get_all_pos():
-            GlobalVars.game_board.set_pos(block, self.shape)
+            gv.game_board.set_pos(block, self.shape)
 
-        GlobalVars.all_objects.remove(GlobalVars.active_tetromino)
-        GlobalVars.active_tetromino = None
+        gv.all_objects.remove(gv.active_tetromino)
+        gv.active_tetromino = None
 
         LineCleared.process()
         generate_new()
