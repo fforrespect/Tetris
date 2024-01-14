@@ -117,16 +117,11 @@ class Tetromino:
             screen.blit(block_image, nw_px)
 
     def move(self) -> None:
-        # time_to_move: bool = gv.elapsed_frames % C.MOVE_BUFFER == 0
-        time_to_move = True
-        l_or_r: int = gv.keys.press("right") - gv.keys.press("left") if time_to_move else 0
+        l_or_r: int = gv.keys.press("right") - gv.keys.press("left")
 
-        down = 1 \
-            if ((gv.elapsed_frames % Level.speed() == 0) or
-                (gv.keys.press("s_drop") and time_to_move)) \
-            else 0
+        down = 1 if (gv.elapsed_frames % Level.speed() == 0 or gv.keys.press("s_drop")) else 0
 
-        if gv.keys.press("s_drop") and time_to_move:
+        if gv.keys.press("s_drop"):
             gv.score += 1
 
         new_rotation: int = (self.rotation + (gv.keys.press("r_cw") - gv.keys.press("r_acw"))) % 4
@@ -143,17 +138,16 @@ class Tetromino:
         self.nw_pos[1] += down
 
         allow_rotation = (allow_rotation and
-                          time_to_move and
                           all(is_valid_block_position([x, y])
                               for x, y in self.get_all_pos(rotated_matrix)))
 
         self.matrix = rotated_matrix if allow_rotation else self.matrix
         self.rotation = new_rotation if allow_rotation else self.rotation
 
-        if gv.keys.press("h_drop") and time_to_move:
+        if gv.keys.press("h_drop"):
             self.__hard_drop()
 
-        if gv.keys.press("hold") and time_to_move:
+        if gv.keys.press("hold"):
             self.__hold()
 
     def activate(self) -> None:

@@ -40,7 +40,13 @@ MINI_MINO_SIZE: int = 24
 
 # Physics #
 FPS: int = 60
-KEY_PRESS_INTERVAL: int = 8  # frames
+KEY_PRESS_INTERVALS: dict[str, int] = {"left"   : 8,
+                                       "right"  : 8,
+                                       "r_cw"   : 12,
+                                       "r_acw"  : 12,
+                                       "s_drop" : 10,
+                                       "h_drop" : 15,
+                                       "hold"   : 0}  # frames
 
 # Controls #
 K_MOVE_LEFT: int = pygame.K_LEFT

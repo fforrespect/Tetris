@@ -4,12 +4,12 @@ from Setup import Constants as c, GlobalVars as gv
 
 
 def init():
-    gv.keys = Tracker(c.KEY_PRESS_INTERVAL)
+    gv.keys = Tracker()
 
 
 class Tracker:
-    def __init__(self, interval: int):
-        self.interval: int = interval
+    def __init__(self):
+        # self.interval: int = interval
 
         self.key_can_be_pressed: dict[str, bool] = {"left"   : True,
                                                     "right"  : True,
@@ -45,10 +45,10 @@ class Tracker:
 
         kb_input: tuple[bool] = pygame.key.get_pressed()
 
-        if gv.elapsed_frames - self.frame_last_pressed[key] >= self.interval:
+        if gv.elapsed_frames - self.frame_last_pressed[key] >= c.KEY_PRESS_INTERVALS[key]:
             self.key_can_be_pressed[key] = True
 
-        # if left is able to be pressed
+        # if it is able to be pressed
         if self.key_can_be_pressed[key]:
             # if it is actually pressed
             if kb_input[c.KEY_INPUTS[key]]:
