@@ -1,10 +1,11 @@
 import pygame
 
 from Event import GameOver
+from Game import Initialise, Loop
 from Setup import Constants as c, GlobalVars as gv, Colours
 
 
-def run(screen: pygame.Surface):
+def run(screen: pygame.Surface, clock: pygame.time.Clock):
     print("Topped out!")
 
     gv.game_running = False
@@ -18,6 +19,11 @@ def run(screen: pygame.Surface):
 
     while gv.outro_running:
         GameOver.quit_pressed(pygame.event.get())
+
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_RETURN]:
+            break
 
         pygame.draw.rect(screen, Colours.D_GRAY, rect, border_radius=25)
         pygame.draw.rect(screen, Colours.BORDER, rect, 5, 25)
@@ -42,4 +48,5 @@ def run(screen: pygame.Surface):
 
         pygame.display.update()
 
-
+    Initialise.init()
+    Loop.run(screen, clock)
