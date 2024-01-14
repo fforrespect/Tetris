@@ -40,7 +40,7 @@ MINI_MINO_SIZE: int = 24
 
 # Physics #
 FPS: int = 60
-KEY_PRESS_INTERVAL: int = 10  # frames
+KEY_PRESS_INTERVAL: int = 8  # frames
 
 # Controls #
 K_MOVE_LEFT: int = pygame.K_LEFT
