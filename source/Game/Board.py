@@ -40,11 +40,6 @@ class Board:
         return invalid_positions
 
     def set_pos(self, pos, content) -> None:
-        print()
         temp_grid: np.ndarray = np.array(self.grid)
         temp_grid[*pos[::-1]] = str(content)
         self.grid = temp_grid.tolist()
-
-        print(self)
-        print(pos)
-        print(content)
