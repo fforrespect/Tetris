@@ -1,4 +1,5 @@
 import pygame
+import numpy as np
 
 from Setup import Constants, GlobalVars
 
@@ -14,7 +15,7 @@ class Board:
                                        for _ in range(Constants.GRID_SIZE[1])]
         self.px_size: list[float] = [Constants.MINO_SIZE]*2
 
-        GlobalVars.all_overlays.append(self)
+        GlobalVars.all_overlays.add(self)
 
     def __str__(self) -> str:
         return get_printable(self.grid)
@@ -37,3 +38,13 @@ class Board:
                 if self.grid[row][col] != " ":
                     invalid_positions.append([col, row])
         return invalid_positions
+
+    def set_pos(self, pos, content) -> None:
+        print()
+        temp_grid: np.ndarray = np.array(self.grid)
+        temp_grid[*pos[::-1]] = str(content)
+        self.grid = temp_grid.tolist()
+
+        print(self)
+        print(pos)
+        print(content)

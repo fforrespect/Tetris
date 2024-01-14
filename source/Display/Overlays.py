@@ -6,7 +6,7 @@ from Setup import Constants, GlobalVars, Colours
 
 
 def init() -> None:
-    PlayBox()
+    # PlayBox()
     GameBoard()
     Score()
     HighScoreO()
@@ -19,7 +19,7 @@ def init() -> None:
 class GameBoard:
     def __init__(self):
         self.NW: tuple[int, int] = (0, 0)
-        GlobalVars.all_overlays.append(self)
+        GlobalVars.all_overlays.add(self)
 
     def draw(self, screen: pygame.Surface) -> None:
         board_image: pygame.image = pygame.image.load(Constants.GAME_BOARD_OVERLAY_FP)
@@ -29,7 +29,7 @@ class GameBoard:
 class Score:
     def __init__(self):
         self.NW: tuple[int, int] = Constants.SCORE_TX_NW
-        GlobalVars.all_overlays.append(self)
+        GlobalVars.all_overlays.add(self)
 
     def draw(self, screen: pygame.Surface) -> None:
         Numbers.draw(screen, GlobalVars.score, self.NW, Constants.SCORES_CHARS)
@@ -38,7 +38,7 @@ class Score:
 class HighScoreO:
     def __init__(self):
         self.NW: tuple[int, int] = Constants.TOP_TX_NW
-        GlobalVars.all_overlays.append(self)
+        GlobalVars.all_overlays.add(self)
 
     def draw(self, screen: pygame.Surface) -> None:
         Numbers.draw(screen, HighScore.get(), self.NW, Constants.SCORES_CHARS)
@@ -47,7 +47,7 @@ class HighScoreO:
 class Level:
     def __init__(self):
         self.NW: tuple[int, int] = Constants.LEVEL_TX_NW
-        GlobalVars.all_overlays.append(self)
+        GlobalVars.all_overlays.add(self)
 
     def draw(self, screen: pygame.Surface) -> None:
         Numbers.draw(screen, GlobalVars.current_level, self.NW)
@@ -56,7 +56,7 @@ class Level:
 class Lines:
     def __init__(self):
         self.NW: tuple[int, int] = Constants.LINES_TX_NW
-        GlobalVars.all_overlays.append(self)
+        GlobalVars.all_overlays.add(self)
 
     def draw(self, screen: pygame.Surface) -> None:
         Numbers.draw(screen, GlobalVars.total_lines_cleared, self.NW)
@@ -65,7 +65,7 @@ class Lines:
 class NextPiece:
     def __init__(self):
         self.NW: tuple[int, int] = Constants.NEXT_NW
-        GlobalVars.all_overlays.append(self)
+        GlobalVars.all_overlays.add(self)
 
     @staticmethod
     def draw(screen: pygame.Surface) -> None:
@@ -82,7 +82,7 @@ class Statistics:
         self.tetrominoes = [Tetromino.Tetromino(shape, is_active=False, is_small=True)
                             for shape in self.tetromino_order]
 
-        GlobalVars.all_overlays.append(self)
+        GlobalVars.all_overlays.add(self)
 
     def draw(self, screen: pygame.Surface) -> None:
         for i, tetromino in enumerate(self.tetrominoes):
@@ -101,8 +101,7 @@ class PlayBox:
         self.colour: tuple[int, int, int] = Colours.CYAN
         self.is_filled: bool = False
 
-        GlobalVars.all_overlays.append(self)
+        GlobalVars.all_overlays.add(self)
 
     def draw(self, screen: pygame.Surface) -> None:
-        return
-        # pygame.draw.rect(screen, self.colour, self.rect, not self.is_filled)
+        pygame.draw.rect(screen, self.colour, self.rect, not self.is_filled)

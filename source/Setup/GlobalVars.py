@@ -8,8 +8,8 @@ game_running: bool = True
 
 elapsed_frames: int = 0
 
-all_objects:  list[object] = []
-all_overlays: list[object] = []
+all_objects:  set[object] = set()
+all_overlays: set[object] = set()
 
 active_tetromino: Tetromino.Tetromino | None = None
 held_tetromino: Tetromino.Tetromino | None = None

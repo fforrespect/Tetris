@@ -82,7 +82,7 @@ class Tetromino:
 
         self.nw_pos: list[int] = get_initial_nw_pos(self.matrix_size)
 
-        GlobalVars.all_objects.append(self)
+        GlobalVars.all_objects.add(self)
 
     def draw(self, screen: pygame.Surface, is_next: bool = False, base_nw: tuple[int, int] = None) -> None:
         if (self.is_inactive and not is_next and not self.is_being_held) or \
@@ -238,12 +238,13 @@ class Tetromino:
         return l_or_r, down, allow_rotation
 
     def __stick_to_board(self) -> None:
+        print()
+        print(self.get_all_pos())
         for block in self.get_all_pos():
-            GlobalVars.game_board.grid[block[1]][block[0]] = str(self.shape)
+            GlobalVars.game_board.set_pos(block, self.shape)
 
         GlobalVars.all_objects.remove(GlobalVars.active_tetromino)
         GlobalVars.active_tetromino = None
-        del self
 
         LineCleared.process()
         generate_new()

@@ -8,7 +8,7 @@ def display(screen: pygame.Surface) -> None:
     screen.fill(Colours.BLACK)
 
     # Iterate through the objects, and draw them one by one
-    for item in GlobalVars.all_objects + GlobalVars.all_overlays:
+    for item in GlobalVars.all_objects.union(GlobalVars.all_overlays):
         item.draw(screen)
 
     pygame.display.update()
