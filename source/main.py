@@ -21,16 +21,11 @@ gv.game_board = Board.Board()
 Tetromino.generate_new()
 
 while gv.game_running:
-    # Loop processing #
     clock.tick(c.FPS)
-
     gv.elapsed_frames += 1
 
     # Checks if the red x has been pressed, and quits the game if so
     GameOver.quit_pressed(pygame.event.get())
-    # End processing #
-
-    # keys: tuple[bool] = pygame.key.get_pressed()
 
     if gv.active_tetromino is not None:
         gv.active_tetromino.move()

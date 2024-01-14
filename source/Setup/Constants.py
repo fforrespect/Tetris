@@ -40,8 +40,7 @@ MINI_MINO_SIZE: int = 24
 
 # Physics #
 FPS: int = 60
-KEY_PRESS_DELAY: int = 100
-KEY_PRESS_INTERVAL: int = 50
+KEY_PRESS_INTERVAL: int = 10  # frames
 
 # Controls #
 K_MOVE_LEFT: int = pygame.K_LEFT
@@ -54,6 +53,14 @@ K_SOFT_DROP: int = pygame.K_DOWN
 K_HARD_DROP: int = pygame.K_SPACE
 
 K_HOLD_PIECE: int = pygame.K_z
+
+KEY_INPUTS: dict[str, int] = {"left"   : K_MOVE_LEFT,
+                              "right"  : K_MOVE_RIGHT,
+                              "r_cw"   : K_ROTATE_CW,
+                              "r_acw"  : K_ROTATE_ACW,
+                              "s_drop" : K_SOFT_DROP,
+                              "h_drop" : K_HARD_DROP,
+                              "hold"   : K_HOLD_PIECE}
 
 # Grid #
 EMPTY_GRID_LINE = [" "] * GRID_SIZE[0]

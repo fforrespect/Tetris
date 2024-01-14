@@ -4,26 +4,28 @@ from Setup import Constants as c, GlobalVars as gv
 
 
 def init():
-    gv.keys = Tracker(c.KEY_PRESS_DELAY, c.KEY_PRESS_INTERVAL)
+    gv.keys = Tracker(c.KEY_PRESS_INTERVAL)
 
 
 class Tracker:
-    def __init__(self, delay: int, interval: int):
-        self.delay: int = delay
+    def __init__(self, interval: int):
         self.interval: int = interval
 
-        self.move_left_pressed: bool = False
-        self.move_right_pressed: bool = False
+        self.key_can_be_pressed: dict[str, bool] = {"left"   : True,
+                                                    "right"  : True,
+                                                    "r_cw"   : True,
+                                                    "r_acw"  : True,
+                                                    "s_drop" : True,
+                                                    "h_drop" : True,
+                                                    "hold"   : True}
 
-        self.rotate_cw_pressed: bool = False
-        self.rotate_acw_pressed: bool = False
-
-        self.soft_drop_pressed: bool = False
-        self.hard_drop_pressed: bool = False
-
-        self.hold_piece_pressed: bool = False
-
-        self.frame_last_pressed: list[int] = [0] * 7
+        self.frame_last_pressed: dict[str, int] = {"left"   : 0,
+                                                   "right"  : 0,
+                                                   "r_cw"   : 0,
+                                                   "r_acw"  : 0,
+                                                   "s_drop" : 0,
+                                                   "h_drop" : 0,
+                                                   "hold"   : 0}
 
     def press(self, key: str) -> bool:
         """
@@ -43,29 +45,14 @@ class Tracker:
 
         kb_input: tuple[bool] = pygame.key.get_pressed()
 
-        match key:
-            case "left":
-                return kb_input[c.K_MOVE_LEFT]
+        if gv.elapsed_frames - self.frame_last_pressed[key] >= self.interval:
+            self.key_can_be_pressed[key] = True
 
-            case "right":
-                return kb_input[c.K_MOVE_RIGHT]
-
-            case "r_cw":
-                return kb_input[c.K_ROTATE_CW]
-
-            case "r_acw":
-                return kb_input[c.K_ROTATE_ACW]
-
-            case "s_drop":
-                return kb_input[c.K_SOFT_DROP]
-
-            case "h_drop":
-                return kb_input[c.K_HARD_DROP]
-
-            case "hold":
-                return kb_input[c.K_HOLD_PIECE]
-
-            case _:
-                raise ValueError("Incorrect key input")
-
-
+        # if left is able to be pressed
+        if self.key_can_be_pressed[key]:
+            # if it is actually pressed
+            if kb_input[c.KEY_INPUTS[key]]:
+                self.key_can_be_pressed[key] = False
+                self.frame_last_pressed[key] = gv.elapsed_frames
+                return True
+        return False
