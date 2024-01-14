@@ -30,7 +30,6 @@ def init():
 
     gv.keys = None
 
-
     # Set up game
     Tetromino.init()
     Overlays.init()

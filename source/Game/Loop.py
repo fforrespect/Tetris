@@ -5,6 +5,7 @@ from Event import GameOver, ToppedOut
 from Game import Tetromino
 from Setup import Constants as c, GlobalVars as gv
 
+
 def run(screen: pygame.Surface, clock: pygame.time.Clock):
     Tetromino.generate_new()
 

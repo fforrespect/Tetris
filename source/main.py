@@ -10,6 +10,6 @@ clock: pygame.time.Clock = pygame.time.Clock()
 
 # Set up game
 Initialise.init()
-
+# Run game
 Loop.run(screen, clock)
 
