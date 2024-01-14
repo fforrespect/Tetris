@@ -19,7 +19,7 @@ class Board:
                                        for _ in range(c.GRID_SIZE[1])]
         self.px_size: list[float] = [c.MINO_SIZE]*2
 
-        gv.all_overlays.add(self)
+        gv.all_overlays.append(self)
 
     def __str__(self) -> str:
         return get_printable(self.grid)

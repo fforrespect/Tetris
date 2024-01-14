@@ -12,8 +12,8 @@ outro_running: bool = False
 
 elapsed_frames: int = 0
 
-all_objects:  set[object] = set()
-all_overlays: set[object] = set()
+all_objects:  list[object] = []
+all_overlays: list[object] = []
 
 active_tetromino: object | None = None
 held_tetromino: object | None = None

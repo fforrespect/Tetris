@@ -82,7 +82,7 @@ class Tetromino:
 
         self.nw_pos: list[int] = get_initial_nw_pos(self.matrix_size)
 
-        gv.all_objects.add(self)
+        gv.all_objects.append(self)
 
     def draw(self, screen: pygame.Surface, is_next: bool = False, base_nw: tuple[int, int] = None) -> None:
         if (self.is_inactive and not is_next and not self.is_being_held) or \

@@ -17,8 +17,8 @@ def init():
 
     gv.elapsed_frames = 0
 
-    gv.all_objects = set()
-    gv.all_overlays = set()
+    gv.all_objects = []
+    gv.all_overlays = []
 
     gv.active_tetromino = None
     gv.held_tetromino = None
