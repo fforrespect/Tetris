@@ -1,7 +1,7 @@
 import pygame
 
 from Display import Window, Overlays
-from Event import GameOver
+from Event import GameOver, ToppedOut
 from Game import Board, Tetromino
 from Process import Numbers, KeyPresses
 from Setup import Constants as c, GlobalVars as gv
@@ -32,3 +32,6 @@ while gv.game_running:
 
     # Finally, draw everything to the screen
     Window.display(screen)
+
+
+ToppedOut.run(screen)

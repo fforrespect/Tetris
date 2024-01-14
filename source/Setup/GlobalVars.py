@@ -5,7 +5,10 @@ current_level: int = 0
 score: int = 0
 total_lines_cleared: int = 0
 
+new_high_score: bool = False
+
 game_running: bool = True
+outro_running: bool = False
 
 elapsed_frames: int = 0
 

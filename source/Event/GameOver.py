@@ -12,6 +12,7 @@ def quit_all():
     print("Score:", gv.score)
 
     gv.game_running = False
+    gv.outro_running = False
     pygame.quit()
     sys.exit()
 
@@ -24,4 +25,4 @@ def quit_pressed(events):
 
 
 def top_out():
-    ToppedOut.run()
+    gv.game_running = False

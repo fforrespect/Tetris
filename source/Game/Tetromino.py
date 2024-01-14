@@ -239,8 +239,6 @@ class Tetromino:
         return l_or_r, down, allow_rotation
 
     def __stick_to_board(self) -> None:
-        print()
-        print(self.get_all_pos())
         for block in self.get_all_pos():
             gv.game_board.set_pos(block, self.shape)
 

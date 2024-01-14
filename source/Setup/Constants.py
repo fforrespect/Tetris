@@ -72,6 +72,8 @@ FONTS_FP: str = f"{_RESOURCES_FP}Fonts/"
 SCORES_FP: str = f"{_RESOURCES_FP}Scores/"
 IMAGES_FP: str = f"{_RESOURCES_FP}Images/"
 
+TFF_FP: str = f"{FONTS_FP}press-start/PressStart2P-vaV7.ttf"
+
 ALL_SCORES_FP: str = f"{SCORES_FP}all_scores.txt"
 HIGH_SCORE_FP: str = f"{SCORES_FP}high_score.txt"
 

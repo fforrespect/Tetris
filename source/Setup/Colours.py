@@ -1,6 +1,7 @@
-CYAN   : tuple[int, int, int] = (  0, 255, 255)
 BLACK  : tuple[int, int, int] = (  0,   0,   0)  #
 BLUE   : tuple[int, int, int] = (  0,   0, 255)  #
+CYAN   : tuple[int, int, int] = (  0, 255, 255)
+D_GRAY : tuple[int, int, int] = ( 40,  40,  40)
 FUCHSIA: tuple[int, int, int] = (255,   0, 255)
 GRAY   : tuple[int, int, int] = (128, 128, 128)
 GREEN  : tuple[int, int, int] = (  0, 255,   0)  #
@@ -14,3 +15,5 @@ SILVER : tuple[int, int, int] = (192, 192, 192)
 TEAL   : tuple[int, int, int] = (  0, 128, 128)
 WHITE  : tuple[int, int, int] = (255, 255, 255)
 YELLOW : tuple[int, int, int] = (255, 255,   0)
+
+BORDER : tuple[int, int, int] = (178, 250, 240)
