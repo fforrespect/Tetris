@@ -30,10 +30,10 @@ while gv.game_running:
     GameOver.quit_pressed(pygame.event.get())
     # End processing #
 
-    keys: tuple[bool] = pygame.key.get_pressed()
+    # keys: tuple[bool] = pygame.key.get_pressed()
 
     if gv.active_tetromino is not None:
-        gv.active_tetromino.move(keys)
+        gv.active_tetromino.move()
 
     # Finally, draw everything to the screen
     Window.display(screen)

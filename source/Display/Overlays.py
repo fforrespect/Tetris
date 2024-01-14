@@ -2,8 +2,7 @@ import pygame
 
 from Game import Tetromino
 from Process import Numbers, HighScore
-from Setup import Colours
-from Setup import Constants as c, GlobalVars as gv
+from Setup import Constants as c, GlobalVars as gv, Colours
 
 
 def init() -> None:

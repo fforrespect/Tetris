@@ -116,20 +116,20 @@ class Tetromino:
             block_image = pygame.transform.scale(block_image, self.px_size)
             screen.blit(block_image, nw_px)
 
-    def move(self, keys: tuple[bool]) -> None:
+    def move(self) -> None:
         # time_to_move: bool = gv.elapsed_frames % C.MOVE_BUFFER == 0
         time_to_move = True
-        l_or_r: int = keys[c.K_MOVE_RIGHT] - keys[c.K_MOVE_LEFT] if time_to_move else 0
+        l_or_r: int = gv.keys.press("right") - gv.keys.press("left") if time_to_move else 0
 
         down = 1 \
             if ((gv.elapsed_frames % Level.speed() == 0) or
-                (keys[c.K_SOFT_DROP] and time_to_move)) \
+                (gv.keys.press("s_drop") and time_to_move)) \
             else 0
 
-        if keys[c.K_SOFT_DROP] and time_to_move:
+        if gv.keys.press("s_drop") and time_to_move:
             gv.score += 1
 
-        new_rotation: int = (self.rotation + (keys[c.K_ROTATE_CW] - keys[c.K_ROTATE_ACW])) % 4
+        new_rotation: int = (self.rotation + (gv.keys.press("r_cw") - gv.keys.press("r_acw"))) % 4
         rotated_matrix: list[list[bool]] = Shapes.matrices[self.shape][new_rotation]
 
         allow_rotation: bool
@@ -150,10 +150,10 @@ class Tetromino:
         self.matrix = rotated_matrix if allow_rotation else self.matrix
         self.rotation = new_rotation if allow_rotation else self.rotation
 
-        if keys[c.K_HARD_DROP] and time_to_move:
+        if gv.keys.press("h_drop") and time_to_move:
             self.__hard_drop()
 
-        if keys[c.K_HOLD_PIECE] and time_to_move:
+        if gv.keys.press("hold") and time_to_move:
             self.__hold()
 
     def activate(self) -> None:

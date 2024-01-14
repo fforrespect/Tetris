@@ -20,4 +20,4 @@ game_board: Board.Board | None = None
 
 tetromino_statistics: list[int] = [0] * 7
 
-key_tracker: KeyPresses.Tracker | None = None
+keys: KeyPresses.Tracker | None = None
