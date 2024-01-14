@@ -6,8 +6,6 @@ from Setup import GlobalVars as gv
 
 
 def quit_all():
-    HighScore.add_new_score()
-
     gv.game_running = False
     gv.outro_running = False
 
@@ -19,8 +17,10 @@ def quit_all():
 def quit_pressed(events):
     for event in events:
         if event.type == pygame.QUIT:
+            HighScore.add_new_score()
             quit_all()
 
 
 def top_out():
+    HighScore.add_new_score()
     gv.game_running = False
