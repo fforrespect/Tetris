@@ -16,7 +16,7 @@ Tetromino.init()
 Overlays.init()
 Numbers.init()
 KeyPresses.init()
-gv.game_board = Board.Board()
+Board.init()
 
 Tetromino.generate_new()
 

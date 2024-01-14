@@ -4,6 +4,10 @@ import numpy as np
 from Setup import Constants as c, GlobalVars as gv
 
 
+def init():
+    gv.game_board = Board()
+
+
 def get_printable(grid) -> str:
     return "\n".join(map(str, grid))
 
