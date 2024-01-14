@@ -27,6 +27,8 @@ SCORE_TX_NW: tuple[int, int] = (768, 224)
 NEXT_NW: tuple[int, int] = (764, 416)
 NEXT_SIZE: tuple[int, int] = (132, 132)
 
+HOLD_NW: tuple[int, int] = (764, 638)
+
 # Environment #
 SCREEN_SIZE: tuple[int, int] = (1024, 896)
 

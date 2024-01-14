@@ -14,7 +14,7 @@ def init() -> None:
 
 def generate_new() -> None:
     make_random_tetromino()
-    GlobalVars.tetromino_queue.pop(0).becomes_active()
+    GlobalVars.tetromino_queue.pop(0).activate()
 
     if any(not is_valid_block_position([x, y]) for x, y in GlobalVars.active_tetromino.get_all_pos()):
         GameOver.top_out()
@@ -39,8 +39,20 @@ def is_valid_block_position(pos: list[int]) -> bool:
             ((x, y) not in set_of_invalid_positions))
 
 
+def get_initial_nw_pos(matrix_size: int) -> list[int]:
+    match matrix_size:
+        case 1:
+            return [5, 0]
+        case 2 | 3:
+            return [4, 0]
+        case 4:
+            return [3, -1]
+        case _:
+            raise Exception("Invalid matrix")
+
+
 class Tetromino:
-    def __init__(self, shape: int, is_in_queue: bool = True, is_small: bool = False):
+    def __init__(self, shape: int, is_active: bool = True, is_small: bool = False):
         """
         :param shape:
            -1: just a dot (debug)
@@ -53,42 +65,35 @@ class Tetromino:
             6: L-piece
         :type shape: int
 
-        :param is_in_queue: Is the piece currently in the queue, or should it be displayed?
-        :type is_in_queue: bool
+        :param is_active: Is the piece currently in the queue, or should it be displayed?
+        :type is_active: bool
         """
 
         self.shape: int = shape
-        self.is_in_queue: bool = is_in_queue
+        self.is_inactive: bool = is_active
         self.is_small: bool = is_small
 
         self.rotation: int = 0
+        self.is_being_held: bool = False
+        self.has_used_hold: bool = False
         self.px_size: list[float] = [Constants.MINO_SIZE if not self.is_small else Constants.MINI_MINO_SIZE] * 2
         self.matrix: list[list[bool]] = Shapes.matrices[shape][self.rotation]
         self.matrix_size: int = len(self.matrix)
 
-        self.nw_pos: list[int, int]
-        match self.matrix_size:
-            case 1:
-                self.nw_pos = [5, 0]
-            case 2 | 3:
-                self.nw_pos = [4, 0]
-            case 4:
-                self.nw_pos = [3, -1]
-            case _:
-                raise Exception("Invalid matrix")
+        self.nw_pos: list[int] = get_initial_nw_pos(self.matrix_size)
 
         GlobalVars.all_objects.append(self)
 
     def draw(self, screen: pygame.Surface, is_next: bool = False, base_nw: tuple[int, int] = None) -> None:
-        if (self.is_in_queue and not is_next) or \
+        if (self.is_inactive and not is_next and not self.is_being_held) or \
                 (self.is_small and base_nw is None):
             return
 
         rotated_matrix: list[list[bool]] = Shapes.matrices[self.shape][1]
 
-        positions = self.get_all_pos(rotated_matrix if self.is_in_queue else None)
+        positions = self.get_all_pos(rotated_matrix if self.is_inactive else None)
         x_adj: float = 0; y_adj: float = 0
-        if is_next:
+        if is_next or self.is_being_held:
             x_adj = -(min([pos[0] for pos in positions]) - 1) + (0.5 if self.matrix_size == 4 else 0)
             y_adj = 0.5 if self.matrix_size == 3 else 1
         if base_nw is not None:
@@ -96,8 +101,13 @@ class Tetromino:
             y_adj = 0.75 if self.shape == 1 else 0
         adj: tuple[float, float] = (x_adj, y_adj)
 
-        base_nw: tuple[int, int] = (Constants.NEXT_NW if is_next else Constants.PLAYBOX_NW) \
-            if base_nw is None else base_nw
+        if base_nw is None:
+            if is_next:
+                base_nw = Constants.NEXT_NW
+            elif self.is_being_held:
+                base_nw = Constants.HOLD_NW
+            else:
+                base_nw = Constants.PLAYBOX_NW
 
         for position in positions:
             nw_px: list[int] = [base_nw[i] + ((position[i] + adj[i]) * self.px_size[0])
@@ -139,18 +149,22 @@ class Tetromino:
         if keys[pygame.K_SPACE] and time_to_move:
             self.__hard_drop()
 
-    def becomes_active(self):
-        self.is_in_queue = False
+        if keys[pygame.K_z] and time_to_move:
+            self.__hold()
+
+    def activate(self) -> None:
+        self.is_inactive = False
         GlobalVars.tetromino_statistics[self.shape] += 1
         GlobalVars.active_tetromino = self
 
     def get_all_pos(self, matrix: list[list[int]] | None = None) -> list[list[int]]:
         matrix = self.matrix if matrix is None else matrix
+        nw_to_check = get_initial_nw_pos(self.matrix_size) if self.is_being_held else self.nw_pos
         # Iterate over each row and col in self.matrix_size,
         # Check if self.matrix[row][col] is equal to 1,
         # If so, append the adjusted position [self.nw_pos[0] + col, self.nw_pos[1] + row] to the list,
         # Finally, the resulting list of positions is returned
-        return [[self.nw_pos[0] + col, self.nw_pos[1] + row]
+        return [[nw_to_check[0] + col, nw_to_check[1] + row]
                 for row in range(len(matrix))
                 for col in range(len(matrix[0]))
                 if matrix[row][col]]
@@ -167,6 +181,26 @@ class Tetromino:
 
         self.nw_pos[1] += max_drop
         self.__stick_to_board()
+
+    def __hold(self) -> None:
+        if GlobalVars.held_tetromino is None:
+            GlobalVars.held_tetromino = GlobalVars.active_tetromino
+            GlobalVars.tetromino_queue.pop(0).activate()
+        else:
+            if GlobalVars.active_tetromino.has_used_hold:
+                return
+            GlobalVars.active_tetromino, GlobalVars.held_tetromino = (
+                GlobalVars.held_tetromino, GlobalVars.active_tetromino)
+
+        GlobalVars.active_tetromino.has_used_hold = True
+
+        GlobalVars.held_tetromino.is_being_held = True
+        GlobalVars.active_tetromino.is_being_held = False
+
+        GlobalVars.held_tetromino.is_inactive = True
+        GlobalVars.active_tetromino.is_inactive = False
+
+        GlobalVars.active_tetromino.nw_pos = get_initial_nw_pos(self.matrix_size)
 
     def __adjust_vel_for_collision(
             self,

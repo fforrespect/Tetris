@@ -79,7 +79,7 @@ class Statistics:
         self.num_NW: tuple[int, int] = Constants.STATS_NUMBERS_NW
 
         self.tetromino_order: tuple = (4, 5, 2, 0, 3, 6, 1)
-        self.tetrominoes = [Tetromino.Tetromino(shape, is_in_queue=False, is_small=True)
+        self.tetrominoes = [Tetromino.Tetromino(shape, is_active=False, is_small=True)
                             for shape in self.tetromino_order]
 
         GlobalVars.all_overlays.append(self)
