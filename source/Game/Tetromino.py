@@ -236,6 +236,9 @@ class Tetromino:
         for block in self.get_all_pos():
             gv.game_board.set_pos(block, self.shape)
 
+        block_placed_sound = pygame.mixer.Sound(c.BLOCK_PLACED_AUDIO_FP)
+        pygame.mixer.Sound.play(block_placed_sound)
+
         gv.all_objects.remove(gv.active_tetromino)
         gv.active_tetromino = None
 

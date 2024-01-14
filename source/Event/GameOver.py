@@ -2,7 +2,7 @@ import sys
 import pygame
 
 from Process import HighScore
-from Setup import GlobalVars as gv
+from Setup import GlobalVars as gv, Constants as c
 
 
 def quit_all():
@@ -24,3 +24,7 @@ def quit_pressed(events):
 def top_out():
     HighScore.add_new_score()
     gv.game_running = False
+
+    pygame.mixer.music.stop()
+    game_over_sound = pygame.mixer.Sound(c.GAME_OVER_SOUND_FP)
+    pygame.mixer.Sound.play(game_over_sound)

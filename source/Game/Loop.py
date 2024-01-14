@@ -7,6 +7,9 @@ from Setup import Constants as c, GlobalVars as gv
 
 
 def run(screen: pygame.Surface, clock: pygame.time.Clock):
+    pygame.mixer.music.load(c.THEME_TUNE_FP)
+    pygame.mixer.music.play(-1)
+
     Tetromino.generate_new()
 
     while gv.game_running:
