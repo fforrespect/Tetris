@@ -14,7 +14,7 @@ def quit_all():
 
 
 # Checks if the window's red x button has been pressed
-def quit_pressed(events):
+def quit_pressed(events: list[pygame.event.Event]):
     for event in events:
         if event.type == pygame.QUIT:
             HighScore.add_new_score()

@@ -15,6 +15,7 @@ def init():
 
     gv.game_running = True
     gv.outro_running = False
+    gv.pause_running = False
 
     gv.elapsed_frames = 0
 

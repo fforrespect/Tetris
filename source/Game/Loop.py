@@ -1,7 +1,7 @@
 import pygame
 
 from Display import Window
-from Event import GameOver, ToppedOut
+from Event import GameOver, ToppedOut, Pause
 from Game import Tetromino
 from Setup import Constants as c, GlobalVars as gv
 
@@ -18,6 +18,7 @@ def run(screen: pygame.Surface, clock: pygame.time.Clock):
 
         # Checks if the red x has been pressed, and quits the game if so
         GameOver.quit_pressed(pygame.event.get())
+        Pause.check(screen, clock)
 
         if gv.active_tetromino is not None:
             gv.active_tetromino.move()

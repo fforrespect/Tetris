@@ -10,6 +10,7 @@ new_high_score: bool = False
 
 game_running: bool = True
 outro_running: bool = False
+pause_running: bool = False
 
 elapsed_frames: int = 0
 
