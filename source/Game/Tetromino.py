@@ -203,6 +203,7 @@ class Tetromino:
         gv.active_tetromino.is_inactive = False
 
         gv.active_tetromino.nw_pos = get_initial_nw_pos(self.matrix_size)
+        gv.active_tetromino.rotation = 0
 
     def __adjust_vel_for_collision(
             self,
