@@ -12,7 +12,6 @@ def check(screen: pygame.Surface, clock: pygame.time.Clock):
 
 
 def run(screen: pygame.Surface, clock: pygame.time.Clock):
-
     gv.game_running = False
     gv.pause_running = True
 
@@ -34,6 +33,8 @@ def run(screen: pygame.Surface, clock: pygame.time.Clock):
         if keys[pygame.K_ESCAPE]:
             restart = True
             break
+        if keys[pygame.K_m]:
+            pygame.mixer.music.play() if gv.is_music_paused else pygame.mixer.music.pause()
 
         pygame.draw.rect(screen, Colours.D_GRAY, rect, border_radius=25)
         pygame.draw.rect(screen, Colours.BORDER, rect, 5, 25)
