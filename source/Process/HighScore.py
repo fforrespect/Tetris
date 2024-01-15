@@ -1,15 +1,14 @@
 from Setup import Constants as c, GlobalVars as gv
 
 
-def check() -> None:
-    with open(c.HIGH_SCORE_FP, "r") as file:
-        if gv.score > int(file.read()):
-            _set()
+def init() -> None:
+    with open(c.ALL_SCORES_FP, "r") as file:
+        scores_list: list[int] = list(map(lambda x: int(x) if x.isdigit() else 0, file.read().split("\n")))
+    gv.prev_high_score = max(scores_list)
 
 
 def get() -> int:
-    with open(c.HIGH_SCORE_FP, "r") as file:
-        return int(str(file.read()))
+    return gv.prev_high_score
 
 
 def add_new_score() -> None:
@@ -17,10 +16,3 @@ def add_new_score() -> None:
         return
     with open(c.ALL_SCORES_FP, "a") as file:
         file.write(str(gv.score) + "\n")
-        check()
-
-
-def _set() -> None:
-    with open(c.HIGH_SCORE_FP, "w") as file:
-        file.write(str(gv.score))
-    gv.new_high_score = True

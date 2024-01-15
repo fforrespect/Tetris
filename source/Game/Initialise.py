@@ -1,5 +1,5 @@
 from Display import Overlays
-from Process import Numbers
+from Process import Numbers, HighScore
 from Setup import GlobalVars as gv
 from Game import Board, Tetromino
 from Process import KeyPresses
@@ -10,6 +10,7 @@ def init():
     gv.score = 0
     gv.total_lines_cleared = 0
 
+    gv.prev_high_score = None
     gv.new_high_score = False
 
     gv.game_running = True
@@ -36,3 +37,4 @@ def init():
     Numbers.init()
     KeyPresses.init()
     Board.init()
+    HighScore.init()

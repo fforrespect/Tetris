@@ -82,7 +82,6 @@ AUDIO_FP: str = f"{_RESOURCES_FP}Audio/"
 TFF_FP: str = f"{FONTS_FP}press-start/PressStart2P-vaV7.ttf"
 
 ALL_SCORES_FP: str = f"{SCORES_FP}all_scores.txt"
-HIGH_SCORE_FP: str = f"{SCORES_FP}high_score.txt"
 
 BLOCK_IMAGES_FP: str = f"{IMAGES_FP}Blocks/"
 GAME_BOARD_OVERLAY_FP: str = f"{IMAGES_FP}game_board.png"
