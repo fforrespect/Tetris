@@ -119,9 +119,11 @@ class Tetromino:
     def move(self) -> None:
         l_or_r: int = gv.keys.press("right") - gv.keys.press("left")
 
-        down = 1 if (gv.elapsed_frames % Level.speed() == 0 or gv.keys.press("s_drop")) else 0
+        press_down: bool = gv.keys.press("s_drop")
 
-        if gv.keys.press("s_drop"):
+        down = 1 if (gv.elapsed_frames % Level.speed() == 0 or press_down) else 0
+
+        if press_down:
             gv.score += 1
 
         new_rotation: int = (self.rotation + (gv.keys.press("r_cw") - gv.keys.press("r_acw"))) % 4
