@@ -14,6 +14,8 @@ def init() -> None:
     NextPiece()
     Statistics()
     GameBoard()
+    TetrisRate()
+    LineBarDrought()
 
 
 class GameBoard:
@@ -79,7 +81,7 @@ class Statistics:
         self.num_NW: tuple[int, int] = c.STATS_NUMBERS_NW
 
         self.tetromino_order: tuple = (4, 5, 2, 0, 3, 6, 1)
-        self.tetrominoes = [Tetromino.Tetromino(shape, is_active=False, is_small=True)
+        self.tetrominoes = [Tetromino.Tetromino(shape, False, True)
                             for shape in self.tetromino_order]
 
         gv.all_overlays.append(self)
@@ -93,6 +95,30 @@ class Statistics:
                 gv.tetromino_statistics[tetromino.shape],
                 (self.num_NW[0], self.num_NW[1] + c.STATS_SPACING*i)
             )
+
+
+class TetrisRate:
+    def __init__(self):
+        self.NW: tuple[int, int] = c.TRT_TX_NW
+        gv.all_overlays.append(self)
+
+    def draw(self, screen: pygame.Surface) -> None:
+        try:
+            trt_pc: int = round((gv.tetrises * 400) / gv.total_lines_cleared)
+            trt_pc = 99 if trt_pc == 100 else trt_pc
+        except ZeroDivisionError:
+            trt_pc: int = 0
+        Numbers.draw(screen, trt_pc, self.NW, c.TRT_CHARS, True)
+
+
+class LineBarDrought:
+    def __init__(self):
+        self.NW: tuple[int, int] = c.DROUGHT_TX_NW
+        gv.all_overlays.append(self)
+
+    def draw(self, screen: pygame.Surface) -> None:
+        display = gv.drought if gv.drought < 100 else 99
+        Numbers.draw(screen, display, self.NW, c.DROUGHT_CHARS, True)
 
 
 class PlayBox:

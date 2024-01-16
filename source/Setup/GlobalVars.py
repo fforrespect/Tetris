@@ -4,6 +4,9 @@ from Process import KeyPresses
 current_level: int = 0
 score: int = 0
 total_lines_cleared: int = 0
+tetrises: int = 0
+
+drought: int = 0
 
 prev_high_score: bool | None = None
 new_high_score: bool = False

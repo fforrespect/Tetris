@@ -15,6 +15,7 @@ def init() -> None:
 def generate_new() -> None:
     make_random_tetromino()
     gv.tetromino_queue.pop(0).activate()
+    gv.drought = 0 if gv.active_tetromino.shape == 1 else gv.drought + 1
 
     if any(not is_valid_block_position([x, y]) for x, y in gv.active_tetromino.get_all_pos()):
         GameOver.top_out()

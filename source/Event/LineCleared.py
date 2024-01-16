@@ -1,16 +1,18 @@
-from Setup import Constants, GlobalVars
+from Setup import Constants as c, GlobalVars as gv
 
 
 def process() -> None:
     lines_to_clear: list[list[str]] = []
-    for row in GlobalVars.game_board.grid:
+    for row in gv.game_board.grid:
         if " " not in row:
             lines_to_clear.append(row)
 
     for line in range(len(lines_to_clear)):
-        GlobalVars.game_board.grid.remove(lines_to_clear[line])
-        GlobalVars.game_board.grid.insert(0, Constants.EMPTY_GRID_LINE)
+        gv.game_board.grid.remove(lines_to_clear[line])
+        gv.game_board.grid.insert(0, c.EMPTY_GRID_LINE)
 
-    GlobalVars.total_lines_cleared += len(lines_to_clear)
-    GlobalVars.score += Constants.SCORE_MULTIPLIERS[len(lines_to_clear)] * (GlobalVars.current_level + 1)
-    GlobalVars.current_level = GlobalVars.total_lines_cleared // Constants.LINES_NEEDED_FOR_NEXT_LEVEL
+    gv.tetrises += 1 if len(lines_to_clear) == 4 else 0
+
+    gv.total_lines_cleared += len(lines_to_clear)
+    gv.score += c.SCORE_MULTIPLIERS[len(lines_to_clear)] * (gv.current_level + 1)
+    gv.current_level = gv.total_lines_cleared // c.LINES_NEEDED_FOR_NEXT_LEVEL

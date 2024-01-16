@@ -8,28 +8,28 @@ SMALL_NUMBER_SIZE: tuple[int, int] = (24, 21)
 PLAYBOX_SIZE: tuple[int, int] = (324, 648)
 PLAYBOX_NW: tuple[int, int] = (380, 156)
 
-STATS_TB_SIZE: tuple[int, int] = (280, 516)
 STATS_TB_NW: tuple[int, int] = (52, 296)
 STATS_TETRAMINO_NW: tuple[int, int] = (94, 338)
 STATS_NUMBERS_NW: tuple[int, int] = (192, 352)
 STATS_SPACING: int = 64
 
 LINES_CHARS: int = 3
-LINES_TX_SIZE: tuple[int, int] = (NUMBER_SIZE[0]*LINES_CHARS, NUMBER_SIZE[1])
 LINES_TX_NW: tuple[int, int] = (608, 64)
 
 LEVEL_CHARS: int = 3
-LEVEL_TX_SIZE: tuple[int, int] = (NUMBER_SIZE[0]*LEVEL_CHARS, NUMBER_SIZE[1])
-LEVEL_TX_NW: tuple[int, int] = (124, 126)
+LEVEL_TX_NW: tuple[int, int] = (124, 94)  # 126)
 
 SCORES_CHARS: int = 6
-SCORES_TX_SIZE: tuple[int, int] = (NUMBER_SIZE[0]*SCORES_CHARS, NUMBER_SIZE[1])
 TOP_TX_NW: tuple[int, int] = (768, 128)
 SCORE_TX_NW: tuple[int, int] = (768, 224)
 
-NEXT_NW: tuple[int, int] = (764, 416)
-NEXT_SIZE: tuple[int, int] = (132, 132)
+TRT_CHARS: int = 2
+TRT_TX_NW: tuple[int, int] = (112, 178)
 
+DROUGHT_CHARS: int = 2
+DROUGHT_TX_NW: tuple[int, int] = (246, 178)
+
+NEXT_NW: tuple[int, int] = (764, 416)
 HOLD_NW: tuple[int, int] = (764, 638)
 
 # Environment #
@@ -81,11 +81,13 @@ IMAGES_FP: str = f"{_RESOURCES_FP}Images/"
 AUDIO_FP: str = f"{_RESOURCES_FP}Audio/"
 
 TFF_FP: str = f"{FONTS_FP}press-start/PressStart2P-vaV7.ttf"
+REG_NUM_FP: str = f"{FONTS_FP}Regular/"
+SML_NUM_FP: str = f"{FONTS_FP}Small/"
 
 ALL_SCORES_FP: str = f"{SCORES_FP}all_scores.txt"
 
 BLOCK_IMAGES_FP: str = f"{IMAGES_FP}Blocks/"
-GAME_BOARD_OVERLAY_FP: str = f"{IMAGES_FP}game_board.png"
+GAME_BOARD_OVERLAY_FP: str = f"{IMAGES_FP}game_board_adv.png"
 
 GAME_OVER_SOUND_FP: str = f"{AUDIO_FP}game_over.wav"
 BLOCK_PLACED_AUDIO_FP: str = f"{AUDIO_FP}block_placed.wav"
