@@ -114,7 +114,7 @@ class Tetromino:
         for position in positions:
             nw_px: list[int] = [base_nw[i] + ((position[i] + adj[i]) * self.px_size[0])
                                 for i in range(2)]
-            Block.blit_image(screen, self.shape, nw_px, self.px_size)
+            Block.blit_image(screen, self.shape, nw_px, self.px_size, self.is_small)
 
     def move(self) -> None:
         l_or_r: int = gv.keys.press("right") - gv.keys.press("left")

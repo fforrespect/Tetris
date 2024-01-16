@@ -92,6 +92,7 @@ GAME_BOARD_OVERLAY_FP: str = f"{IMAGES_FP}game_board_adv.png"
 
 MODERN_BLOCKS_FP: str = f"{_BLOCK_IMAGES_FP}Modern/"
 CLASSIC_BLOCKS_FP: str = f"{_BLOCK_IMAGES_FP}Classic/blocks.png"
+SML_CLASSIC_BLOCKS_FP: str = f"{_BLOCK_IMAGES_FP}Classic/blocks_small.png"
 
 GAME_OVER_SOUND_FP: str = f"{AUDIO_FP}game_over.wav"
 BLOCK_PLACED_AUDIO_FP: str = f"{AUDIO_FP}block_placed.wav"
