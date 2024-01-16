@@ -9,6 +9,9 @@ def init():
     gv.current_level = 0
     gv.score = 0
     gv.total_lines_cleared = 0
+    gv.tetrises = 0
+
+    gv.drought = 0
 
     gv.prev_high_score = None
     gv.new_high_score = False
@@ -31,8 +34,6 @@ def init():
     gv.tetromino_statistics = [0] * 7
 
     gv.keys = None
-
-    gv.is_music_paused = False
 
     # Set up game
     Tetromino.init()
