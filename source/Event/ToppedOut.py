@@ -1,8 +1,8 @@
 import pygame
 
 from Event import GameOver
-from Game import Initialise, Loop
-from Setup import Constants as c, GlobalVars as gv, Colours
+from Game import Loop
+from Setup import Constants as c, GlobalVars as gv, Colours, GameInit
 
 
 def run(screen: pygame.Surface, clock: pygame.time.Clock):
@@ -46,5 +46,5 @@ def run(screen: pygame.Surface, clock: pygame.time.Clock):
 
         pygame.display.update()
 
-    Initialise.init()
+    GameInit.init()
     Loop.run(screen, clock)

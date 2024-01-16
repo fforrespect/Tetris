@@ -1,8 +1,8 @@
 import pygame
 
 from Event import GameOver
-from Game import Initialise, Loop
-from Setup import GlobalVars as gv, Constants as c, Colours
+from Game import Loop
+from Setup import GlobalVars as gv, Constants as c, Colours, GameInit
 
 
 def check(screen: pygame.Surface, clock: pygame.time.Clock):
@@ -85,5 +85,5 @@ def run(screen: pygame.Surface, clock: pygame.time.Clock):
     gv.pause_running = False
 
     if restart:
-        Initialise.init()
+        GameInit.init()
         Loop.run(screen, clock)
