@@ -32,6 +32,8 @@ def init():
 
     gv.keys = None
 
+    gv.is_music_paused = False
+
     # Set up game
     Tetromino.init()
     Overlays.init()
