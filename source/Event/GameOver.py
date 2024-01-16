@@ -9,6 +9,8 @@ def quit_all():
     gv.game_running = False
     gv.outro_running = False
 
+    HighScore.add_new_score()
+
     pygame.quit()
     sys.exit()
 
@@ -17,7 +19,6 @@ def quit_all():
 def quit_pressed(events: list[pygame.event.Event]):
     for event in events:
         if event.type == pygame.QUIT:
-            HighScore.add_new_score()
             quit_all()
 
 

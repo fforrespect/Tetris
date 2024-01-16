@@ -1,8 +1,6 @@
 import pygame
 
-# Text #
-NUMBER_SIZE: tuple[int, int] = (32, 28)
-SMALL_NUMBER_SIZE: tuple[int, int] = (24, 21)
+pygame.init()
 
 # Overlay Sizes and NW Positions #
 PLAYBOX_SIZE: tuple[int, int] = (324, 648)
@@ -81,10 +79,10 @@ SCORES_FP: str = f"{_RESOURCES_FP}Scores/"
 IMAGES_FP: str = f"{_RESOURCES_FP}Images/"
 AUDIO_FP: str = f"{_RESOURCES_FP}Audio/"
 
-TFF_FP: str = f"{FONTS_FP}press-start/PressStart2P-vaV7.ttf"
 REG_NUM_FP: str = f"{FONTS_FP}Regular/"
 SML_NUM_FP: str = f"{FONTS_FP}Small/"
 
+_TFF_FP: str = f"{FONTS_FP}press-start/PressStart2P-vaV7.ttf"
 ALL_SCORES_FP: str = f"{SCORES_FP}all_scores.txt"
 
 _BLOCK_IMAGES_FP: str = f"{IMAGES_FP}Blocks/"
@@ -101,3 +99,10 @@ THEME_TUNE_FP: str = f"{AUDIO_FP}theme.wav"
 # Game #
 LINES_NEEDED_FOR_NEXT_LEVEL: int = 10
 SCORE_MULTIPLIERS: tuple[int, int, int, int, int] = (0, 40, 100, 300, 1200)
+
+# Text #
+NUMBER_SIZE: tuple[int, int] = (32, 28)
+SMALL_NUMBER_SIZE: tuple[int, int] = (24, 21)
+
+SMALL_FONT = pygame.font.Font(_TFF_FP, 16)
+LARGE_FONT = pygame.font.Font(_TFF_FP, 38)
