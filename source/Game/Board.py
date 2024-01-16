@@ -1,6 +1,7 @@
 import pygame
 import numpy as np
 
+from Display import Block
 from Setup import Constants as c, GlobalVars as gv
 
 
@@ -18,6 +19,7 @@ class Board:
                                        for __ in range(c.GRID_SIZE[0])]
                                        for _ in range(c.GRID_SIZE[1])]
         self.px_size: list[float] = [c.MINO_SIZE]*2
+        self.block_images = {}
 
         gv.all_overlays.append(self)
 
@@ -29,11 +31,8 @@ class Board:
             for col in range(len(self.grid[row])):
                 content: str = self.grid[row][col]
                 if content != " ":
-                    nw_px: list[int] = [(c.PLAYBOX_NW[i] + [col, row][i] * c.MINO_SIZE) for i in
-                                        range(2)]
-                    block_image: pygame.image = pygame.image.load(f"{c.BLOCK_IMAGES_FP}{content}.png")
-                    block_image = pygame.transform.scale(block_image, self.px_size)
-                    screen.blit(block_image, nw_px)
+                    nw_px: list[int] = [(c.PLAYBOX_NW[i] + [col, row][i] * c.MINO_SIZE) for i in range(2)]
+                    Block.blit_image(screen, int(content), nw_px, self.px_size)
 
     def get_invalid_positions(self) -> list[list[int]]:
         invalid_positions: list[list[int]] = []

@@ -1,6 +1,7 @@
 import pygame
 import random
 
+from Display import Block
 from Event import LineCleared, GameOver
 from Game import Level
 from Process import Shapes
@@ -113,9 +114,7 @@ class Tetromino:
         for position in positions:
             nw_px: list[int] = [base_nw[i] + ((position[i] + adj[i]) * self.px_size[0])
                                 for i in range(2)]
-            block_image: pygame.image = pygame.image.load(f"{c.BLOCK_IMAGES_FP}{self.shape}.png")
-            block_image = pygame.transform.scale(block_image, self.px_size)
-            screen.blit(block_image, nw_px)
+            Block.blit_image(screen, self.shape, nw_px, self.px_size)
 
     def move(self) -> None:
         l_or_r: int = gv.keys.press("right") - gv.keys.press("left")

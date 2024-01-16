@@ -12,5 +12,5 @@ def resize_with_aliasing(image_fp: str, target_fp: str) -> None:
     new_image.save(target_fp)
 
 
-for i in range(10):
-    resize_with_aliasing(f"../../Resources/Fonts/{i}.png", f"../../Resources/Fonts/{i}.png")
+resize_with_aliasing("../../Resources/Images/Blocks/blocks.png",
+                     "../../Resources/Images/Blocks/blocks.png")

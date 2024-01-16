@@ -31,3 +31,4 @@ tetromino_statistics: list[int] = [0] * 7
 keys: KeyPresses.Tracker | None = None
 
 is_music_paused: bool = False
+using_classic_skin: bool = True

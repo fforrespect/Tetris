@@ -37,6 +37,7 @@ SCREEN_SIZE: tuple[int, int] = (1024, 896)
 
 GRID_SIZE: tuple[int, int] = (10, 20)
 MINO_SIZE: float = PLAYBOX_SIZE[0]/GRID_SIZE[0]  # ~32 (32.4 by default)
+DEFAULT_MINO_SIZE: int = 32
 MINI_MINO_SIZE: int = 24
 
 # Physics #
@@ -86,8 +87,11 @@ SML_NUM_FP: str = f"{FONTS_FP}Small/"
 
 ALL_SCORES_FP: str = f"{SCORES_FP}all_scores.txt"
 
-BLOCK_IMAGES_FP: str = f"{IMAGES_FP}Blocks/"
+_BLOCK_IMAGES_FP: str = f"{IMAGES_FP}Blocks/"
 GAME_BOARD_OVERLAY_FP: str = f"{IMAGES_FP}game_board_adv.png"
+
+MODERN_BLOCKS_FP: str = f"{_BLOCK_IMAGES_FP}Modern/"
+CLASSIC_BLOCKS_FP: str = f"{_BLOCK_IMAGES_FP}Classic/blocks.png"
 
 GAME_OVER_SOUND_FP: str = f"{AUDIO_FP}game_over.wav"
 BLOCK_PLACED_AUDIO_FP: str = f"{AUDIO_FP}block_placed.wav"
