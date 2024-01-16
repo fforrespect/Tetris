@@ -2,6 +2,7 @@ import pygame
 
 # Text #
 NUMBER_SIZE: tuple[int, int] = (32, 28)
+SMALL_NUMBER_SIZE: tuple[int, int] = (24, 21)
 
 # Overlay Sizes and NW Positions #
 PLAYBOX_SIZE: tuple[int, int] = (324, 648)
