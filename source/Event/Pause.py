@@ -34,13 +34,17 @@ def run(screen: pygame.Surface, clock: pygame.time.Clock):
             restart = True
             break
         if keys[pygame.K_m]:
-            pygame.mixer.music.play() if gv.is_music_paused else pygame.mixer.music.pause()
+            pygame.mixer.music.unpause() if gv.is_music_paused else None
+            gv.is_music_paused = False
+        if keys[pygame.K_n]:
+            pygame.mixer.music.pause() if not gv.is_music_paused else None
+            gv.is_music_paused = True
 
         pygame.draw.rect(screen, Colours.D_GRAY, rect, border_radius=25)
         pygame.draw.rect(screen, Colours.BORDER, rect, 5, 25)
 
         title_text = large_font.render(
-            "Paused.",
+            "Paused",
             True,
             Colours.WHITE
         )
@@ -49,7 +53,7 @@ def run(screen: pygame.Surface, clock: pygame.time.Clock):
         screen.blit(title_text, title_text_rect)
 
         text2 = small_font.render(
-            "Press 'ENTER' to resume,",
+            "Press 'ENTER' to resume",
             True,
             Colours.WHITE
         )
@@ -58,12 +62,21 @@ def run(screen: pygame.Surface, clock: pygame.time.Clock):
         screen.blit(text2, text2_rect)
 
         text3 = small_font.render(
-            "or 'ESC' to restart",
+            "Press 'ESC' to restart",
             True,
             Colours.WHITE
         )
         text3_rect = text3.get_rect()
         text3_rect.center = (c.SCREEN_SIZE[0]/2, (c.SCREEN_SIZE[1]/2) + 65)
+        screen.blit(text3, text3_rect)
+
+        text3 = small_font.render(
+            "Press '" + ("M' to play" if gv.is_music_paused else "N' to pause") + " the music",
+            True,
+            Colours.WHITE
+        )
+        text3_rect = text3.get_rect()
+        text3_rect.center = (c.SCREEN_SIZE[0]/2, (c.SCREEN_SIZE[1]/2) + 90)
         screen.blit(text3, text3_rect)
 
         pygame.display.update()
