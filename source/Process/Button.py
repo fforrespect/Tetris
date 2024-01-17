@@ -64,6 +64,7 @@ class Button:
 
 all_buttons: list[Button] = []
 
+
 def reset() -> None:
     global all_buttons
     all_buttons = []

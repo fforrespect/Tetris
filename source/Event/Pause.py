@@ -7,6 +7,7 @@ from Setup import GlobalVars as gv, Constants as c, Colours, GameInit
 
 restart: bool = False
 
+
 def check(screen: pygame.Surface, clock: pygame.time.Clock) -> None:
     keys = pygame.key.get_pressed()
     if keys[pygame.K_p]:
@@ -17,14 +18,17 @@ def resume() -> None:
     gv.pause_running = False
     Button.reset()
 
+
 def restart_() -> None:
     global restart
     restart = True
     Button.reset()
 
+
 def toggle_music() -> None:
     pygame.mixer.music.unpause() if gv.is_music_paused else pygame.mixer.music.pause()
     gv.is_music_paused = not gv.is_music_paused
+
 
 def toggle_graphics() -> None:
     gv.using_classic_skin = not gv.using_classic_skin

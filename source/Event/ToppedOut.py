@@ -7,6 +7,7 @@ from Setup import Constants as c, GlobalVars as gv, Colours, GameInit
 
 restart: bool = False
 
+
 def restart_() -> None:
     global restart
     restart = True
@@ -32,6 +33,8 @@ def create_buttons() -> None:
 def run(screen: pygame.Surface, clock: pygame.time.Clock):
     gv.game_running = False
     gv.outro_running = True
+    global restart
+    restart = False
 
     rect: pygame.Rect = pygame.Rect(0, 0, 640, 280)
     rect.center = (c.SCREEN_SIZE[0]/2, c.SCREEN_SIZE[1]/2)
