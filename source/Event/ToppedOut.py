@@ -43,9 +43,6 @@ def run(screen: pygame.Surface, clock: pygame.time.Clock):
 
     x = 0
     while gv.outro_running:
-        if x==0:
-            print("outro running")
-        x=1
         GameOver.quit_pressed(pygame.event.get())
 
         keys = pygame.key.get_pressed()
@@ -59,7 +56,6 @@ def run(screen: pygame.Surface, clock: pygame.time.Clock):
             gv.is_music_paused = True
 
         if restart or not gv.outro_running:
-            print("leave outro")
             break
 
         pygame.draw.rect(screen, Colours.D_GRAY, rect, border_radius=25)
