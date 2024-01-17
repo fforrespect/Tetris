@@ -8,7 +8,9 @@ from Setup import Constants as c, GlobalVars as gv
 
 def run(screen: pygame.Surface, clock: pygame.time.Clock):
     pygame.mixer.music.load(c.THEME_TUNE_FP)
-    pygame.mixer.music.play(-1) if not gv.is_music_paused else None
+    pygame.mixer.music.play(-1)
+    if gv.is_music_paused:
+        pygame.mixer.music.pause()
 
     Tetromino.generate_new()
 
