@@ -1,4 +1,4 @@
-from Game import Board
+from Game import Board, Tetromino
 from Process import KeyPresses
 
 current_level: int = 0
@@ -22,7 +22,7 @@ all_overlays: list[object] = []
 
 active_tetromino: object | None = None
 held_tetromino: object | None = None
-tetromino_queue: list[object] = []
+tetromino_queue: list[Tetromino.Tetromino] = []
 
 game_board: Board.Board | None = None
 

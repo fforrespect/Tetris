@@ -86,7 +86,9 @@ _TFF_FP: str = f"{FONTS_FP}press-start/PressStart2P-vaV7.ttf"
 ALL_SCORES_FP: str = f"{SCORES_FP}all_scores.txt"
 
 _BLOCK_IMAGES_FP: str = f"{IMAGES_FP}Blocks/"
-GAME_BOARD_OVERLAY_FP: str = f"{IMAGES_FP}game_board_adv.png"
+_GAME_BOARD_FP: str = f"{IMAGES_FP}Board/"
+MODERN_GAME_BOARD_FP: str = f"{_GAME_BOARD_FP}game_board_modern.png"
+CLASSIC_GAME_BOARD_FP: str = f"{_GAME_BOARD_FP}game_board_classic.png"
 
 MODERN_BLOCKS_FP: str = f"{_BLOCK_IMAGES_FP}Modern/"
 CLASSIC_BLOCKS_FP: str = f"{_BLOCK_IMAGES_FP}Classic/blocks.png"

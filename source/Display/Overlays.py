@@ -22,10 +22,13 @@ class GameBoard:
     def __init__(self):
         self.NW: tuple[int, int] = (0, 0)
         gv.all_overlays.append(self)
+        self.board_images: dict[bool, pygame.image] = {
+            False: pygame.image.load(c.MODERN_GAME_BOARD_FP),
+            True: pygame.image.load(c.CLASSIC_GAME_BOARD_FP)
+        }
 
     def draw(self, screen: pygame.Surface) -> None:
-        board_image: pygame.image = pygame.image.load(c.GAME_BOARD_OVERLAY_FP)
-        screen.blit(board_image, self.NW)
+        screen.blit(self.board_images[gv.using_classic_skin], self.NW)
 
 
 class Score:
