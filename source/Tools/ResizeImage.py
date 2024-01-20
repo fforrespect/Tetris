@@ -13,7 +13,8 @@ def resize(image_fp: str, target_fp: str, factor: float, anti_aliasing: bool = F
     new_image.save(target_fp)
 
 
-resize("/Users/jaiveer/Downloads/smile.png",
-       "/Users/jaiveer/Downloads/smile.png",
-       0.5,
-       False)
+if __name__ == "__main__":
+    resize("/Users/jaiveer/Downloads/smile.png",
+           "/Users/jaiveer/Downloads/smile.png",
+           0.5,
+           False)
