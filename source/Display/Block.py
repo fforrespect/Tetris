@@ -17,10 +17,11 @@ def blit_image(screen: pygame.Surface,
     if gv.using_classic_skin:
         level: int = gv.current_level % 256
         offset: int = int(__get_offset(shape) * px_size[0])
-        x: int = (((level % 10) * 3) * c.DEFAULT_MINO_SIZE) + offset
-        y: int = 0 if level <= 129 else (level // 10) * c.DEFAULT_MINO_SIZE
+        mino_size: int = c.DEFAULT_MINO_SIZE if not is_small else c.MINI_MINO_SIZE
+        x: int = (((level % 10) * 3) * mino_size) + offset
+        y: int = 0 if level <= 129 else (level // 10) * mino_size
 
-        area: tuple[tuple[int, int], list[float]] = ((x,y), px_size)
+        area: tuple[tuple[int, int], list[float]] = ((x, y), px_size)
     else:
         block_image = pygame.transform.scale(block_image, px_size)
 
