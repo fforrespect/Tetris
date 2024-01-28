@@ -41,7 +41,6 @@ def run(screen: pygame.Surface, clock: pygame.time.Clock):
 
     create_buttons()
 
-    x = 0
     while gv.outro_running:
         GameOver.quit_pressed(pygame.event.get())
 
@@ -61,8 +60,10 @@ def run(screen: pygame.Surface, clock: pygame.time.Clock):
         pygame.draw.rect(screen, Colours.D_GRAY, rect, border_radius=25)
         pygame.draw.rect(screen, Colours.BORDER, rect, 5, 25)
 
+        is_new_high_score: bool = gv.score > gv.prev_high_score
+
         title_text = c.LARGE_FONT.render(
-            "New High Score!" if gv.new_high_score else "Game Over",
+            "New High Score!" if is_new_high_score else "Game Over",
             True,
             Colours.WHITE
         )

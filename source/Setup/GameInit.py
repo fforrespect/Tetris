@@ -14,7 +14,6 @@ def init():
     gv.drought = 0
 
     gv.prev_high_score = None
-    gv.new_high_score = False
 
     gv.game_running = True
     gv.outro_running = False

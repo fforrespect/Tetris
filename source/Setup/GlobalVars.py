@@ -9,7 +9,6 @@ tetrises: int = 0
 drought: int = 0
 
 prev_high_score: bool | None = None
-new_high_score: bool = False
 
 game_running: bool = True
 outro_running: bool = False
